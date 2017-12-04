@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Entity
-@Table(name = "food_company", schema = "dineit")
+@Table(name = "food_company")
 @PrimaryKeyJoinColumn(referencedColumnName = "id")
 public class FoodCompany extends Business {
 
