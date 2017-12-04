@@ -10,32 +10,25 @@ public class Address implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "address_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "country", nullable = false)
     private String country;
 
-    @Column(nullable = false)
+    @Column(name = "city", nullable = false)
     private String city;
 
-    @Column
+    @Column(name = "district")
     private String district;
 
-    @Column(nullable = false)
+    @Column(name = "street", nullable = false)
     private String street;
 
-    @Column(nullable = false)
+    @Column(name = "building", nullable = false)
     private String building;
 
     public Address() {}
-
-    public Address(String country, String city, String district, String street, String building) {
-        this.country = country;
-        this.city = city;
-        this.district = district;
-        this.street = street;
-        this.building = building;
-    }
 
     public Long getId() {
         return id;
@@ -80,6 +73,7 @@ public class Address implements Serializable{
     public String getBuilding() {
         return building;
     }
+
 
     public void setBuilding(String building) {
         this.building = building;
