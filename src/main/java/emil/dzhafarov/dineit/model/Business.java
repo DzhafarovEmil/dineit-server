@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.Map;
 
 @Entity
+@Table(name = "business", schema = "dineit")
 @Inheritance(strategy = InheritanceType.JOINED)
 @PrimaryKeyJoinColumn(referencedColumnName = "id")
 public class Business extends User {

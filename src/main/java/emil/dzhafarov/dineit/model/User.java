@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Set;
 
 @Entity
+@Table(name = "user", schema = "dineit")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User implements UserDetails {
 
