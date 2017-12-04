@@ -7,6 +7,7 @@ import javax.persistence.Table;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "fridge", schema = "dineit")
 @PrimaryKeyJoinColumn(referencedColumnName = "id")
 public class Fridge extends User {
 

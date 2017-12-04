@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@Table(name="\"order\"")
+@Table(name="\"order\"", schema = "dineit")
 public class Order implements Serializable {
 
     private static final long serialVersionUID = 5009157732289741606L;

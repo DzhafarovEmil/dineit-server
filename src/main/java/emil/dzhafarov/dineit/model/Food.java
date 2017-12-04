@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Entity
+@Table(name = "food", schema = "dineit")
 public class Food implements Serializable {
 
     private static final long serialVersionUID = -7869952242241606L;

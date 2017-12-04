@@ -5,6 +5,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "customer", schema = "dineit")
 @PrimaryKeyJoinColumn(referencedColumnName = "id")
 public class Customer extends User {
 

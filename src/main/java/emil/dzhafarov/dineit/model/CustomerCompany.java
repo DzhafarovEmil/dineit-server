@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@Table(name = "customer_company", schema = "dineit")
 @PrimaryKeyJoinColumn(referencedColumnName = "id")
 public class CustomerCompany extends Business {
 
