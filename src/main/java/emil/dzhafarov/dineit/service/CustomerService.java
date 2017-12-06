@@ -33,7 +33,7 @@ public class CustomerService implements RestContract<Customer> {
 
     @Override
     public boolean isExist(Customer obj) {
-        return repository.findByUsername(obj.getUsername()) != null;
+        return repository.exists(obj.getId());
     }
 
     @Override
