@@ -10,13 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
 public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
 
-    @RequestMapping(value = "/customer", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/customer", method = RequestMethod.GET)
     public ResponseEntity<List<Customer>> getAllCustomers() {
         List<Customer> customers = customerService.getAll();
 
@@ -27,7 +26,7 @@ public class CustomerController {
         return new ResponseEntity<>(customers, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/customer/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/customer/{id}", method = RequestMethod.GET)
     public ResponseEntity<Customer> findCustomerById(@PathVariable("id") Long id) {
         Customer customer = customerService.findById(id);
 
@@ -48,7 +47,7 @@ public class CustomerController {
         return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/customer/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/api/customer/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Void> updateCustomer(@PathVariable("id") Long id,
                                             @RequestBody Customer customer) {
         Customer currentCustomer = customerService.findById(id);
@@ -68,7 +67,7 @@ public class CustomerController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/customer/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/api/customer/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteCustomer(@PathVariable("id") Long id) {
         Customer customer = customerService.findById(id);
 
