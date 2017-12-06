@@ -19,9 +19,6 @@ public class FoodCompany extends Business {
     @OneToMany(targetEntity = Food.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Food> availableFoods;
 
-    @OneToMany(targetEntity = Order.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Order> orders;
-
     public FoodCompany() {
         super();
     }
@@ -42,11 +39,4 @@ public class FoodCompany extends Business {
         this.availableFoods = availableFoods;
     }
 
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
 }

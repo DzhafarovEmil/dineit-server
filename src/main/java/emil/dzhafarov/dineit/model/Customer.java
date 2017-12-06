@@ -2,7 +2,6 @@ package emil.dzhafarov.dineit.model;
 
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "customer", schema = "dineit")
@@ -20,20 +19,8 @@ public class Customer extends User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @OneToMany(targetEntity = Order.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Order> orders;
-
     public Customer() {
         super();
-    }
-
-    public Customer(String username, String password, String phoneNumber,
-                    String firstName, String lastName, String email, List<Order> orders) {
-        super(username, password, phoneNumber);
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.orders = orders;
     }
 
     public String getFirstName() {
@@ -58,13 +45,5 @@ public class Customer extends User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
     }
 }
