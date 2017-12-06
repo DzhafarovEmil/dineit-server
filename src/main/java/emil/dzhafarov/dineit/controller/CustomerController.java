@@ -42,6 +42,7 @@ public class CustomerController {
         if (customerService.isExist(customer)) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
+        System.out.println(customer);
 
         Long id = customerService.create(customer);
         return new ResponseEntity<>(id, HttpStatus.CREATED);
