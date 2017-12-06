@@ -38,14 +38,14 @@ public class CustomerController {
         return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/customer/", method = RequestMethod.POST)
-    public ResponseEntity<Void> createCustomer(@RequestBody Customer customer) {
+    @RequestMapping(value = "/register-customer/", method = RequestMethod.POST)
+    public ResponseEntity<Long> createCustomer(@RequestBody Customer customer) {
         if (customerService.isExist(customer)) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 
-        customerService.create(customer);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        Long id = customerService.create(customer);
+        return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/customer/{id}", method = RequestMethod.PUT)

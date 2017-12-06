@@ -49,21 +49,4 @@ public class FoodCompany extends Business {
     public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
-
-    @Override
-    public String toString() {
-        return "Name: " + getName() + "\n" +
-                "Username: " + getUsername() + "\n" +
-                "Password: " + getPassword() + "\n" +
-                "Phone: " + getPhoneNumber() + "\n" +
-                "Business code: " + getBusinessCode() + "\n" +
-                "Email: " + getEmail() + "\n" +
-                "imageUrl: " + getImageURL() + "\n" +
-                "country: " + getAddress().getCountry() + "\n" +
-                "city: " + getAddress().getCity() + "\n" +
-                "district: " + getAddress().getDistrict() + "\n" +
-                "street: " + getAddress().getStreet() + "\n" +
-                "building: " + getAddress().getBuilding();
-
-    }
 }
