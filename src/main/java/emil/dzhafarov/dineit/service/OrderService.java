@@ -1,5 +1,7 @@
 package emil.dzhafarov.dineit.service;
 
+import emil.dzhafarov.dineit.model.Customer;
+import emil.dzhafarov.dineit.model.FoodCompany;
 import emil.dzhafarov.dineit.model.Order;
 import emil.dzhafarov.dineit.persistence.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,14 @@ public class OrderService implements RestContract<Order> {
     @Override
     public boolean isExist(Order obj) {
         return repository.exists(obj.getId());
+    }
+
+    public List<Order> findByCustomer(Customer customer) {
+        return repository.findByCustomer(customer);
+    }
+
+    public List<Order> findByFoodCompany(FoodCompany foodCompany) {
+        return repository.findByFoodCompany(foodCompany);
     }
 
     @Override

@@ -21,6 +21,9 @@ public class Order implements Serializable {
     @ManyToOne(targetEntity = Customer.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Customer customer;
 
+    @ManyToOne(targetEntity = FoodCompany.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private FoodCompany foodCompany;
+
     @ManyToOne(targetEntity = Fridge.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Fridge fridge;
 
@@ -31,14 +34,6 @@ public class Order implements Serializable {
     private OrderStatus status;
 
     public Order() {}
-
-    public Order(LocalDateTime orderedTime, Customer customer, Fridge fridge, Set<Food> foods, OrderStatus status) {
-        this.orderedTime = orderedTime;
-        this.customer = customer;
-        this.fridge = fridge;
-        this.foods = foods;
-        this.status = status;
-    }
 
     public Long getId() {
         return id;
@@ -86,5 +81,13 @@ public class Order implements Serializable {
 
     public void setStatus(OrderStatus status) {
         this.status = status;
+    }
+
+    public FoodCompany getFoodCompany() {
+        return foodCompany;
+    }
+
+    public void setFoodCompany(FoodCompany foodCompany) {
+        this.foodCompany = foodCompany;
     }
 }
