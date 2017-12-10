@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="\"order\"", schema = "dineit")
@@ -21,6 +22,9 @@ public class Order implements Serializable {
 
     @ManyToOne(targetEntity = Customer.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Customer customer;
+
+    @ManyToOne(targetEntity = FoodCompany.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private FoodCompany foodCompany;
 
     @ManyToOne(targetEntity = Fridge.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Fridge fridge;
@@ -79,5 +83,13 @@ public class Order implements Serializable {
 
     public void setStatus(OrderStatus status) {
         this.status = status;
+    }
+
+    public FoodCompany getFoodCompany() {
+        return foodCompany;
+    }
+
+    public void setFoodCompany(FoodCompany foodCompany) {
+        this.foodCompany = foodCompany;
     }
 }

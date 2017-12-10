@@ -87,7 +87,6 @@ public class OrderController {
         if (o != null && principal.getName().equals(o.getFoodCompany().getUsername())) {
             o.setCustomer(order.getCustomer());
             o.setFoods(order.getFoods());
-            o.setFoodCompany(order.getFoodCompany());
             o.setFridge(order.getFridge());
             o.setOrderedTime(order.getOrderedTime());
             o.setStatus(order.getStatus());

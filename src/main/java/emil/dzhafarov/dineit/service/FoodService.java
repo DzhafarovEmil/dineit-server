@@ -18,29 +18,6 @@ public class FoodService implements RestContract<Food> {
         List<Food> foods = new LinkedList<>();
         repository.findAll().forEach(foods::add);
 
-        if (foods.size() == 0) {
-            repository.save(new Food("pasta", "food", "https://www.thelocal.it/userdata/images/article/69523836b0191608c41d640feead8da2be5462038d3409e1e3900fad039c7fc8.jpg",
-                    "Very tasteful food!", 112.35));
-            repository.save(new Food("sandwich", "food", "http://the-toast.net/wp-content/uploads/2015/07/RPLC_Sweet_Onion_Chicken_Teriyaki.jpg",
-                    "Good snack for business people!", 32.99));
-            repository.save(new Food("pasta", "food", "https://www.thelocal.it/userdata/images/article/69523836b0191608c41d640feead8da2be5462038d3409e1e3900fad039c7fc8.jpg",
-                    "Very tasteful food!", 112.35));
-            repository.save(new Food("sandwich", "food", "http://the-toast.net/wp-content/uploads/2015/07/RPLC_Sweet_Onion_Chicken_Teriyaki.jpg",
-                    "Good snack for business people!", 32.99));
-            repository.save(new Food("pasta", "food", "https://www.thelocal.it/userdata/images/article/69523836b0191608c41d640feead8da2be5462038d3409e1e3900fad039c7fc8.jpg",
-                    "Very tasteful food!", 112.35));
-            repository.save(new Food("sandwich", "food", "http://the-toast.net/wp-content/uploads/2015/07/RPLC_Sweet_Onion_Chicken_Teriyaki.jpg",
-                    "Good snack for business people!", 32.99));
-            repository.save(new Food("pasta", "food", "https://www.thelocal.it/userdata/images/article/69523836b0191608c41d640feead8da2be5462038d3409e1e3900fad039c7fc8.jpg",
-                    "Very tasteful food!", 112.35));
-            repository.save(new Food("sandwich", "food", "http://the-toast.net/wp-content/uploads/2015/07/RPLC_Sweet_Onion_Chicken_Teriyaki.jpg",
-                    "Good snack for business people!", 32.99));
-            repository.save(new Food("pasta", "food", "https://www.thelocal.it/userdata/images/article/69523836b0191608c41d640feead8da2be5462038d3409e1e3900fad039c7fc8.jpg",
-                    "Very tasteful food!", 112.35));
-            repository.save(new Food("sandwich", "food", "http://the-toast.net/wp-content/uploads/2015/07/RPLC_Sweet_Onion_Chicken_Teriyaki.jpg",
-                    "Good snack for business people!", 32.99));
-        }
-
         return foods;
     }
 
