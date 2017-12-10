@@ -7,33 +7,34 @@ import java.util.Map;
 @Entity
 @Table(name = "business", schema = "dineit")
 @Inheritance(strategy = InheritanceType.JOINED)
-@PrimaryKeyJoinColumn(referencedColumnName = "id")
+@PrimaryKeyJoinColumn(referencedColumnName = "user_id")
 public class Business extends User {
 
     private static final long serialVersionUID = 47387732242241606L;
 
-    @Column(unique = true, nullable = false)
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
 
     @OneToOne(targetEntity = Address.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Column(name = "address")
     private Address address;
 
-    @Column(unique = true, nullable = false)
+    @Column(name = "business_code", unique = true, nullable = false)
     private Long businessCode;
 
-    @Column
+    @Column(name = "owner_name")
     private String ownerName;
 
-    @Column
+    @Column(name = "email")
     private String email;
 
-    @Column
+    @Column(name = "registration_date")
     private transient LocalDate registrationDate;
 
     @ElementCollection
     private Map<String, String> socialNetworkRefs;
 
-    public Business() {
+    Business() {
         super();
     }
 

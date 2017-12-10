@@ -5,18 +5,18 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "customer", schema = "dineit")
-@PrimaryKeyJoinColumn(referencedColumnName = "id")
+@PrimaryKeyJoinColumn(referencedColumnName = "user_id")
 public class Customer extends User {
 
     private static final long serialVersionUID = 8889157732242241606L;
 
-    @Column(nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(nullable = false)
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     public Customer() {
@@ -45,14 +45,5 @@ public class Customer extends User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() + "Customer{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                '}';
     }
 }

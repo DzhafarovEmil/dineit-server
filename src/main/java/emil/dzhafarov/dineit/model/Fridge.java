@@ -8,30 +8,22 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "fridge", schema = "dineit")
-@PrimaryKeyJoinColumn(referencedColumnName = "id")
+@PrimaryKeyJoinColumn(referencedColumnName = "user_id")
 public class Fridge extends User {
 
     private static final long serialVersionUID = -666657732242241606L;
 
-    @Column(nullable = false)
+    @Column(name = "start_date", nullable = false)
     private transient LocalDate startDate;
 
-    @Column(nullable = false)
+    @Column(name = "floor", nullable = false)
     private Integer floor;
 
-    @Column(nullable = false)
+    @Column(name = "capacity", nullable = false)
     private Double capacity;
 
     public Fridge() {
         super();
-    }
-
-    public Fridge(String username, String password, String phoneNumber,
-                  LocalDate startDate, Integer floor, Double capacity) {
-        super(username, password, phoneNumber);
-        this.startDate = startDate;
-        this.floor = floor;
-        this.capacity = capacity;
     }
 
     public LocalDate getStartDate() {

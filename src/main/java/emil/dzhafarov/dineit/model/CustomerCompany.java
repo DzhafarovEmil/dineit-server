@@ -5,7 +5,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "customer_company", schema = "dineit")
-@PrimaryKeyJoinColumn(referencedColumnName = "id")
+@PrimaryKeyJoinColumn(referencedColumnName = "user_id")
 public class CustomerCompany extends Business {
 
     private static final long serialVersionUID = 2229157732242241606L;

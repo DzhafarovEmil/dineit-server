@@ -8,12 +8,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "food_company", schema = "dineit")
-@PrimaryKeyJoinColumn(referencedColumnName = "id")
+@PrimaryKeyJoinColumn(referencedColumnName = "user_id")
 public class FoodCompany extends Business {
 
     private static final long serialVersionUID = 999997732242241606L;
 
-    @Column
+    @Column(name = "image_url")
     private String imageURL;
 
     @OneToMany(targetEntity = Food.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)

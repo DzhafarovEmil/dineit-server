@@ -15,35 +15,29 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(unique = true)
+    @Column(name = "phone_number", unique = true)
     private String phoneNumber;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
+    @Column(name = "roles")
     private Set<Role> authorities;
 
-    public User() {}
-
-    public User(String username, String password, String phoneNumber) {
-        this.username = username;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
-    }
+    User() {}
 
     @Override
     public Collection<Role> getAuthorities() {
         return authorities;
     }
-
-
 
     @Override
     public String getPassword() {

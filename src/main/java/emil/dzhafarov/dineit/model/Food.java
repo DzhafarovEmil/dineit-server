@@ -3,7 +3,6 @@ package emil.dzhafarov.dineit.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
 
 @Entity
 @Table(name = "food", schema = "dineit")
@@ -13,32 +12,25 @@ public class Food implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "food_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(name = "type", nullable = false)
     private String type;
 
-    @Column
+    @Column(name = "image_url")
     private String imageURL;
 
-    @Column
+    @Column(name = "description")
     private String description;
 
-    @Column(nullable = false)
+    @Column(name = "price", nullable = false)
     private Double price;
 
     public Food() {}
-
-    public Food(String name, String type, String imageURL, String description, Double price) {
-        this.name = name;
-        this.type = type;
-        this.imageURL = imageURL;
-        this.description = description;
-        this.price = price;
-    }
 
     public Long getId() {
         return id;
@@ -86,20 +78,5 @@ public class Food implements Serializable {
 
     public void setPrice(Double price) {
         this.price = price;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Food food = (Food) o;
-
-        return id != null ? id.equals(food.id) : food.id == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
     }
 }

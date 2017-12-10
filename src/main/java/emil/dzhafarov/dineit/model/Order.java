@@ -3,7 +3,7 @@ package emil.dzhafarov.dineit.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name="\"order\"", schema = "dineit")
@@ -13,22 +13,20 @@ public class Order implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "order_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "ordered_time", nullable = false)
     private transient LocalDateTime orderedTime;
 
     @ManyToOne(targetEntity = Customer.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Customer customer;
 
-    @ManyToOne(targetEntity = FoodCompany.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private FoodCompany foodCompany;
-
     @ManyToOne(targetEntity = Fridge.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Fridge fridge;
 
     @ManyToMany(targetEntity = Food.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Food> foods;
+    private List<Food> foods;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
@@ -67,11 +65,11 @@ public class Order implements Serializable {
         this.fridge = fridge;
     }
 
-    public Set<Food> getFoods() {
+    public List<Food> getFoods() {
         return foods;
     }
 
-    public void setFoods(Set<Food> foods) {
+    public void setFoods(List<Food> foods) {
         this.foods = foods;
     }
 
@@ -81,13 +79,5 @@ public class Order implements Serializable {
 
     public void setStatus(OrderStatus status) {
         this.status = status;
-    }
-
-    public FoodCompany getFoodCompany() {
-        return foodCompany;
-    }
-
-    public void setFoodCompany(FoodCompany foodCompany) {
-        this.foodCompany = foodCompany;
     }
 }
