@@ -16,7 +16,6 @@ public class Business extends User {
     private String name;
 
     @OneToOne(targetEntity = Address.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @Column(name = "address")
     private Address address;
 
     @Column(name = "business_code", unique = true, nullable = false)
