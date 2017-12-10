@@ -31,7 +31,7 @@ public class OrderController {
     @Autowired
     private CustomerService customerService;
 
-    @RequestMapping(value = "/order/{user}", method = RequestMethod.GET)
+    @RequestMapping(value = "/order", method = RequestMethod.GET)
     public ResponseEntity<List<Order>> getAllOrders(@RequestParam("user") String userType, Principal principal) {
         if (SYSTEM_USER_CUSTOMER.equals(userType)) {
             Customer customer = customerService.findByUsername(principal.getName());
@@ -52,8 +52,7 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/order/", method = RequestMethod.POST)
-    public ResponseEntity<Long> createOrder(@RequestBody Order order,
-                                            Principal principal) {
+    public ResponseEntity<Long> createOrder(@RequestBody Order order, Principal principal) {
         FoodCompany foodCompany = foodCompanyService.findById(order.getFoodCompany().getId());
         Customer customer = customerService.findByUsername(principal.getName());
 
@@ -66,7 +65,7 @@ public class OrderController {
             return new ResponseEntity<>(id, HttpStatus.CREATED);
         }
 
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(-1L, HttpStatus.NOT_FOUND);
     }
 
     @RequestMapping(value = "/order/{id}", method = RequestMethod.PUT)
