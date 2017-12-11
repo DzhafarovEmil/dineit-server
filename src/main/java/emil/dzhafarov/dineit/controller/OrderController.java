@@ -52,9 +52,8 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/create-order/", method = {RequestMethod.GET, RequestMethod.POST})
-    public ResponseEntity<Long> createOrder(@RequestParam("food_company_id") Long foodCompanyId,
-                                            @RequestBody Order order, Principal principal) {
-        FoodCompany foodCompany = foodCompanyService.findById(foodCompanyId);
+    public ResponseEntity<Long> createOrder(@RequestBody Order order, Principal principal) {
+        FoodCompany foodCompany = foodCompanyService.findById(order.getFoodCompany().getId());
         Customer customer = customerService.findByUsername(principal.getName());
 
         if (foodCompany != null && customer != null) {
