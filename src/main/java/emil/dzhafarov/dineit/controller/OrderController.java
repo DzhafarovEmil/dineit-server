@@ -51,8 +51,8 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "/create-order/", method = RequestMethod.POST)
-    public ResponseEntity<Long> createOrder(@RequestParam("food_company_id") Long foodCompanyId,
+    @RequestMapping(value = "/create-order/{food_company_id}", method = RequestMethod.POST)
+    public ResponseEntity<Long> createOrder(@PathVariable("food_company_id") Long foodCompanyId,
                                             @RequestBody Order order, Principal principal) {
         FoodCompany foodCompany = foodCompanyService.findById(foodCompanyId);
         Customer customer = customerService.findByUsername(principal.getName());
