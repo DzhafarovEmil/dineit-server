@@ -53,7 +53,13 @@ public class OrderController {
 
     @RequestMapping(value = "/create-order/", method = RequestMethod.POST)
     public ResponseEntity<Long> createOrder(@RequestBody Order order, Principal principal) {
-        FoodCompany foodCompany = foodCompanyService.findById(order.getFoodCompany().getId());
+        Long id =0L;
+        if (order.getFoodCompany() == null) {
+            id = 6L;
+        } else {
+            id = order.getFoodCompany().getId();
+        }
+        FoodCompany foodCompany = foodCompanyService.findById(id);
         Customer customer = customerService.findByUsername(principal.getName());
 
         if (foodCompany != null && customer != null) {
