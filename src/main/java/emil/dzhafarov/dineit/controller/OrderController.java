@@ -53,7 +53,7 @@ public class OrderController {
 
     @RequestMapping(value = "/create-order/", method = RequestMethod.POST)
     public ResponseEntity<Long> createOrder(@RequestBody Order order, Principal principal) {
-        Long id =0L;
+        Long id;
         if (order.getFoodCompany() == null) {
             id = 6L;
         } else {
@@ -69,8 +69,8 @@ public class OrderController {
 
             order.setCustomer(customer);
             order.setFoodCompany(foodCompany);
-            Long id = orderService.create(order);
-            return new ResponseEntity<>(id, HttpStatus.CREATED);
+            Long orderId = orderService.create(order);
+            return new ResponseEntity<>(orderId, HttpStatus.CREATED);
         }
 
         return new ResponseEntity<>(-1L, HttpStatus.NOT_FOUND);
