@@ -51,7 +51,7 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "/create-order/", method = { RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/create-order/", method = RequestMethod.POST)
     public ResponseEntity<Long> createOrder(@RequestParam("food_company_id") Long foodCompanyId,
                                             @RequestBody Order order, Principal principal) {
         FoodCompany foodCompany = foodCompanyService.findById(foodCompanyId);
@@ -59,7 +59,7 @@ public class OrderController {
 
         if (foodCompany != null && customer != null) {
             if (orderService.isExist(order)) {
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+                return new ResponseEntity<>(-1L, HttpStatus.CONFLICT);
             }
 
             order.setCustomer(customer);
