@@ -22,9 +22,10 @@ public class FoodController {
     FoodCompanyService foodCompanyService;
 
     @RequestMapping(value = "/food", method = RequestMethod.GET)
-    public ResponseEntity<Collection<Food>> getAllFoods(Principal principal) {
-        Collection<Food> foods = new LinkedHashSet<>();
-        FoodCompany foodCompany = foodCompanyService.findByUsername(principal.getName());
+    public ResponseEntity<Collection<Food>> getAllFoods(@RequestParam("food_company_id") Long foodCompanyId) {
+        FoodCompany foodCompany = foodCompanyService.findById(foodCompanyId);
+
+        List<Food> foods = new LinkedList<>();
 
         if (foodCompany != null) {
             foods = foodCompany.getAvailableFoods();
