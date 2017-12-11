@@ -52,7 +52,7 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/create-order/", method = RequestMethod.POST)
-    public ResponseEntity<Long> createOrder(@RequestParam("food_company_id") Long foodCompanyId,
+    public ResponseEntity<Order> createOrder(@RequestParam("food_company_id") Long foodCompanyId,
                                             @RequestBody Order order,
                                             Principal principal) {
         FoodCompany foodCompany = foodCompanyService.findById(foodCompanyId);
@@ -63,13 +63,14 @@ public class OrderController {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
 
+            Long id = orderService.create(order);
+            order.setId(id);
             order.setCustomer(customer);
             order.setFoodCompany(foodCompany);
-            Long id = orderService.create(order);
-            return new ResponseEntity<>(id, HttpStatus.CREATED);
+            return new ResponseEntity<>(order, HttpStatus.CREATED);
         }
 
-        return new ResponseEntity<>(-1L, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @RequestMapping(value = "/order/{id}", method = RequestMethod.PUT)
