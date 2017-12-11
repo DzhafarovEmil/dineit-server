@@ -62,11 +62,10 @@ public class OrderController {
             if (orderService.isExist(order)) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
-
-            Long id = orderService.create(order);
-            order.setId(id);
             order.setCustomer(customer);
             order.setFoodCompany(foodCompany);
+            Long id = orderService.create(order);
+            order.setId(id);
             return new ResponseEntity<>(order, HttpStatus.CREATED);
         }
 
