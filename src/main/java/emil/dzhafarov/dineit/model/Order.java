@@ -18,7 +18,7 @@ public class Order implements Serializable {
     private Long id;
 
     @Column(name = "ordered_time", nullable = false)
-    private transient LocalDateTime orderedTime;
+    private Long orderedTime;
 
     @ManyToOne(targetEntity = Customer.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Customer customer;
@@ -45,11 +45,11 @@ public class Order implements Serializable {
         this.id = id;
     }
 
-    public LocalDateTime getOrderedTime() {
+    public Long getOrderedTime() {
         return orderedTime;
     }
 
-    public void setOrderedTime(LocalDateTime orderedTime) {
+    public void setOrderedTime(Long orderedTime) {
         this.orderedTime = orderedTime;
     }
 

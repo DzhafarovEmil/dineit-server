@@ -52,25 +52,21 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/create-order/", method = RequestMethod.POST)
-    public ResponseEntity<Long> createOrder(@RequestBody Order order, Principal principal) {
-        Long id;
-        if (order.getFoodCompany() == null) {
-            id = 6L;
-        } else {
-            id = order.getFoodCompany().getId();
-        }
-        FoodCompany foodCompany = foodCompanyService.findById(id);
+    public ResponseEntity<Long> createOrder(@RequestParam("food_company_id") Long foodCompanyId,
+                                            @RequestBody Order order,
+                                            Principal principal) {
+        FoodCompany foodCompany = foodCompanyService.findById(foodCompanyId);
         Customer customer = customerService.findByUsername(principal.getName());
 
         if (foodCompany != null && customer != null) {
             if (orderService.isExist(order)) {
-                return new ResponseEntity<>(-1L, HttpStatus.CONFLICT);
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
 
             order.setCustomer(customer);
             order.setFoodCompany(foodCompany);
-            Long orderId = orderService.create(order);
-            return new ResponseEntity<>(orderId, HttpStatus.CREATED);
+            Long id = orderService.create(order);
+            return new ResponseEntity<>(id, HttpStatus.CREATED);
         }
 
         return new ResponseEntity<>(-1L, HttpStatus.NOT_FOUND);
