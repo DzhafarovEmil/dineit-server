@@ -34,11 +34,16 @@ public class OrderController {
     private CustomerService customerService;
 
     @RequestMapping(value = "/order", method = RequestMethod.GET)
-    public ResponseEntity<List<Order>> getAllOrders(@RequestParam("user") String userType, Principal principal) {
+    public ResponseEntity<List<Order>> getAllOrders(@RequestParam("user") String userType,
+                                                    @RequestParam("sort") Integer sort,
+                                                    Principal principal) {
         if (SYSTEM_USER_CUSTOMER.equals(userType)) {
             Customer customer = customerService.findByUsername(principal.getName());
             if (customer != null) {
-                return new ResponseEntity<>(orderService.findByCustomer(customer), HttpStatus.OK);
+                List<Order> orders = new LinkedList<>();
+                orders.addAll(orderService.findByCustomer(customer));
+                sortList(sort, orders);
+                return new ResponseEntity<>(orders, HttpStatus.OK);
             }
         }
 
@@ -46,13 +51,25 @@ public class OrderController {
             FoodCompany foodCompany = foodCompanyService.findByUsername(principal.getName());
 
             if (foodCompany != null) {
-                return new ResponseEntity<>(orderService.findByFoodCompany(foodCompany), HttpStatus.OK);
+                List<Order> orders = new LinkedList<>();
+                orders.addAll(orderService.findByFoodCompany(foodCompany));
+                sortList(sort, orders);
+                return new ResponseEntity<>(orders, HttpStatus.OK);
             }
         }
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+
+    private void sortList(Integer sort, List<Order> orders) {
+        if (sort.equals(1)) {
+            orders.sort(((o1, o2) -> (int)(o2.getOrderedTime() - o1.getOrderedTime())));
+        }
+        if (sort.equals(0)) {
+            orders.sort(((o1, o2) -> (int)(o1.getOrderedTime() - o2.getOrderedTime())));
+        }
+    }
 
     @RequestMapping(value = "/order/{order_id}/foods", method = RequestMethod.GET)
     public ResponseEntity<List<Food>> getAllFoodsInOrder(@PathVariable("order_id") Long orderId) {
