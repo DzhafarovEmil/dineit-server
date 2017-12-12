@@ -20,6 +20,9 @@ public class Order implements Serializable {
     @Column(name = "ordered_time", nullable = false)
     private Long orderedTime;
 
+    @Column(name = "price", nullable = false)
+    private Double price;
+
     @ManyToOne(targetEntity = Customer.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Customer customer;
 
@@ -36,6 +39,14 @@ public class Order implements Serializable {
     private OrderStatus status;
 
     public Order() {}
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
 
     public Long getId() {
         return id;
