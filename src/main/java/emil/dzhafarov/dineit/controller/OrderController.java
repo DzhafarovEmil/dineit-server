@@ -1,6 +1,7 @@
 package emil.dzhafarov.dineit.controller;
 
 import emil.dzhafarov.dineit.model.Customer;
+import emil.dzhafarov.dineit.model.Food;
 import emil.dzhafarov.dineit.model.FoodCompany;
 import emil.dzhafarov.dineit.model.Order;
 import emil.dzhafarov.dineit.service.CustomerService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -49,6 +51,20 @@ public class OrderController {
         }
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
+    @RequestMapping(value = "/order/{order_id}/foods", method = RequestMethod.GET)
+    public ResponseEntity<List<Food>> getAllFoodsInOrder(@PathVariable("order_id") Long orderId) {
+        Order order = orderService.findById(orderId);
+
+        if (order != null) {
+            List<Food> foods = new LinkedList<>();
+            foods.addAll(order.getFoods());
+            return new ResponseEntity<>(foods, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @RequestMapping(value = "/create-order/", method = RequestMethod.POST)
