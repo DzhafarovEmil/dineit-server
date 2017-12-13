@@ -96,8 +96,8 @@ public class FoodController {
         return new ResponseEntity<>(id, HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "/food/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteFood(@PathVariable("id") Long id, Principal principal) {
+    @RequestMapping(value = "/food", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> deleteFood(@RequestParam("food_id") Long id, Principal principal) {
         FoodCompany foodCompany = foodCompanyService.findByUsername(principal.getName());
 
         if (foodCompany != null) {
