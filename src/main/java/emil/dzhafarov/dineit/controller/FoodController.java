@@ -103,8 +103,6 @@ public class FoodController {
         if (foodCompany != null) {
             for (Food f : foodCompany.getAvailableFoods()) {
                 if (f.getId().equals(id)) {
-                    foodCompany.getAvailableFoods().remove(f);
-                    foodCompanyService.update(foodCompany);
                     return new ResponseEntity<>(HttpStatus.OK);
                 }
             }
