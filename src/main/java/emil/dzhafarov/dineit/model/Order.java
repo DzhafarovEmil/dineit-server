@@ -32,7 +32,7 @@ public class Order implements Serializable {
     @ManyToOne(targetEntity = Fridge.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Fridge fridge;
 
-    @ManyToMany(targetEntity = Food.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = Food.class, fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Food> foods;
 
     @Enumerated(EnumType.STRING)
