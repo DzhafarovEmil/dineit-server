@@ -1,6 +1,7 @@
 package emil.dzhafarov.dineit.service;
 
 import emil.dzhafarov.dineit.model.Customer;
+import emil.dzhafarov.dineit.model.Food;
 import emil.dzhafarov.dineit.model.FoodCompany;
 import emil.dzhafarov.dineit.model.Order;
 import emil.dzhafarov.dineit.persistence.OrderRepository;
@@ -55,5 +56,20 @@ public class OrderService implements RestContract<Order> {
     @Override
     public void deleteById(Long id) {
         repository.delete(id);
+    }
+
+    public boolean deleteFoodFromOrders(Long id) {
+        List<Order> orders = getAll();
+
+        for (Order o : orders) {
+            for (Food f : o.getFoods()) {
+                if (f.getId().equals(id)) {
+                    o.getFoods().remove(f);
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

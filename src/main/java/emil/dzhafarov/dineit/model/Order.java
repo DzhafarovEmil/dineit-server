@@ -36,10 +36,6 @@ public class Order implements Serializable {
     private Fridge fridge;
 
     @ManyToMany(targetEntity = Food.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name="order_foods",
-            joinColumns=@JoinColumn(name="order_id"),
-            inverseJoinColumns=@JoinColumn(name="food_id")
-    )
     private List<Food> foods;
 
     @Enumerated(EnumType.STRING)

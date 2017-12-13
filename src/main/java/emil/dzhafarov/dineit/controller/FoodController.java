@@ -4,6 +4,7 @@ import emil.dzhafarov.dineit.model.Food;
 import emil.dzhafarov.dineit.model.FoodCompany;
 import emil.dzhafarov.dineit.service.FoodCompanyService;
 import emil.dzhafarov.dineit.service.FoodService;
+import emil.dzhafarov.dineit.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,8 @@ public class FoodController {
     FoodService foodService;
     @Autowired
     FoodCompanyService foodCompanyService;
+    @Autowired
+    OrderService orderService;
 
     @RequestMapping(value = "/food", method = RequestMethod.GET)
     public ResponseEntity<Collection<Food>> getAllFoods(@RequestParam(value = "food_company_id", required = false) Long foodCompanyId,
@@ -99,9 +102,12 @@ public class FoodController {
             for (Food f : foodCompany.getAvailableFoods()) {
                 if (f.getId().equals(id)) {
                     foodCompany.getAvailableFoods().remove(f);
-                    foodService.deleteById(id);
-                    foodCompanyService.update(foodCompany);
-                    return new ResponseEntity<>(id, HttpStatus.OK);
+
+                    if (orderService.deleteFoodFromOrders(id)) {
+                        foodService.deleteById(id);
+                        foodCompanyService.update(foodCompany);
+                        return new ResponseEntity<>(id, HttpStatus.OK);
+                    }
                 }
             }
         }
