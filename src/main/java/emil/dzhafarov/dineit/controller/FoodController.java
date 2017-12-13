@@ -114,6 +114,6 @@ public class FoodController {
             }
         }
 
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(-1L, HttpStatus.NOT_FOUND);
     }
 }
