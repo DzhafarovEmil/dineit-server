@@ -97,23 +97,22 @@ public class FoodController {
     }
 
     @RequestMapping(value = "/food/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Long> deleteFood(@PathVariable("id") Long id, Principal principal) {
+    public ResponseEntity<Void> deleteFood(@PathVariable("id") Long id, Principal principal) {
         FoodCompany foodCompany = foodCompanyService.findByUsername(principal.getName());
 
         if (foodCompany != null) {
             for (Food f : foodCompany.getAvailableFoods()) {
                 if (f.getId().equals(id)) {
-                    foodCompany.getAvailableFoods().remove(f);
-
                     if (orderService.deleteFoodFromOrders(id)) {
+                        foodCompany.getAvailableFoods().remove(f);
                         foodService.deleteById(id);
                         foodCompanyService.update(foodCompany);
-                        return new ResponseEntity<>(id, HttpStatus.OK);
+                        return new ResponseEntity<>(HttpStatus.OK);
                     }
                 }
             }
         }
 
-        return new ResponseEntity<>(-1L, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
