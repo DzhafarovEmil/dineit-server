@@ -100,7 +100,7 @@ public class FoodController {
     public ResponseEntity<Void> deleteFood(@PathVariable("id") Long id, Principal principal) {
         FoodCompany foodCompany = foodCompanyService.findByUsername(principal.getName());
 
-        System.out.println("PRINCIPAL ====> " + principal.getName());
+        System.out.println("FOODCOMANY ====> " + foodCompany.getId());
 
         if (foodCompany != null) {
             for (Food f : foodCompany.getAvailableFoods()) {
@@ -115,6 +115,6 @@ public class FoodController {
             }
         }
 
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
