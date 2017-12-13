@@ -72,7 +72,8 @@ public class FoodController {
     }
 
     @RequestMapping(value = "/food/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Long> updateFood(@PathVariable("id") Long id, @RequestBody Food food, Principal principal) {
+    public ResponseEntity<Long> updateFood(@PathVariable("id") Long id,
+                                           @RequestBody Food food, Principal principal) {
         FoodCompany foodCompany = foodCompanyService.findByUsername(principal.getName());
 
         if (foodCompany != null) {
@@ -83,6 +84,7 @@ public class FoodController {
                     f.setDescription(food.getDescription());
                     f.setPrice(food.getPrice());
                     f.setImageURL(food.getImageURL());
+                    foodService.update(f);
                     break;
                 }
             }
