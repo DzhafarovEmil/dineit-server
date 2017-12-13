@@ -66,9 +66,9 @@ public class OrderService implements RestContract<Order> {
                 if (f.getId().equals(id)) {
                     o.getFoods().remove(f);
                     if (o.getFoods().isEmpty()) {
-                        repository.delete(o);
+                        deleteById(o.getId());
                     } else {
-                        repository.save(o);
+                        update(o);
                     }
                     return true;
                 }
