@@ -78,7 +78,7 @@ public class FoodController {
 
         if (foodCompany != null) {
             for (Food f : foodCompany.getAvailableFoods()) {
-                if (f.equals(food)) {
+                if (f.getId().equals(food.getId())) {
                     f.setName(food.getName());
                     f.setType(food.getType());
                     f.setDescription(food.getDescription());
