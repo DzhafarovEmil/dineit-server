@@ -58,7 +58,7 @@ public class OrderService implements RestContract<Order> {
         repository.delete(id);
     }
 
-    public boolean deleteFoodFromOrders(Long id) {
+    public void deleteFoodFromOrders(Long id) {
         List<Order> orders = getAll();
 
         for (Order o : orders) {
@@ -70,11 +70,8 @@ public class OrderService implements RestContract<Order> {
                     } else {
                         update(o);
                     }
-                    return true;
                 }
             }
         }
-
-        return false;
     }
 }
