@@ -105,8 +105,6 @@ public class FoodController {
                 if (f.getId().equals(id)) {
                     foodCompany.getAvailableFoods().remove(f);
                     foodCompanyService.update(foodCompany);
-                    orderService.deleteFoodFromOrders(id);
-                    foodService.deleteById(id);
                     return new ResponseEntity<>(id, HttpStatus.OK);
                 }
             }

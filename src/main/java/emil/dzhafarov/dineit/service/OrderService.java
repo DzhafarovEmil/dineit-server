@@ -57,17 +57,4 @@ public class OrderService implements RestContract<Order> {
     public void deleteById(Long id) {
         repository.delete(id);
     }
-
-    public void deleteFoodFromOrders(Long id) {
-        List<Order> orders = getAll();
-
-        for (Order o : orders) {
-            for (Food f : o.getFoods()) {
-                if (f.getId().equals(id)) {
-                    o.getFoods().remove(f);
-                    update(o);
-                }
-            }
-        }
-    }
 }
