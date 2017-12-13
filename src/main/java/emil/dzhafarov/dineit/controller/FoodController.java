@@ -97,13 +97,13 @@ public class FoodController {
     }
 
     @RequestMapping(value = "/food/", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteFood(@RequestParam("food_id") Long id, Principal principal) {
+    public ResponseEntity<Long> deleteFood(@RequestParam("food_id") Long id, Principal principal) {
         FoodCompany foodCompany = foodCompanyService.findByUsername(principal.getName());
 
         if (foodCompany != null) {
             for (Food f : foodCompany.getAvailableFoods()) {
                 if (f.getId().equals(id)) {
-                    return new ResponseEntity<>(HttpStatus.OK);
+                    return new ResponseEntity<>(id, HttpStatus.OK);
                 }
             }
         }
