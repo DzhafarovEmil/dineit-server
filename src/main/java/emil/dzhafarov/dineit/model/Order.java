@@ -1,5 +1,8 @@
 package emil.dzhafarov.dineit.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -32,7 +35,8 @@ public class Order implements Serializable {
     @ManyToOne(targetEntity = Fridge.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Fridge fridge;
 
-    @ManyToMany(targetEntity = Food.class, fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @ManyToMany(targetEntity = Food.class, fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Food> foods;
 
     @Enumerated(EnumType.STRING)
