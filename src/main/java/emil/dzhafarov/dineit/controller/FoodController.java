@@ -100,6 +100,8 @@ public class FoodController {
     public ResponseEntity<Void> deleteFood(@PathVariable("id") Long id, Principal principal) {
         FoodCompany foodCompany = foodCompanyService.findByUsername(principal.getName());
 
+        System.out.println("PRINCIPAL ====> " + principal.getName());
+
         if (foodCompany != null) {
             for (Food f : foodCompany.getAvailableFoods()) {
                 if (f.getId().equals(id)) {
