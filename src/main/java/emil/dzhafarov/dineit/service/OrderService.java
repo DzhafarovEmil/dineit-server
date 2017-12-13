@@ -60,22 +60,21 @@ public class OrderService implements RestContract<Order> {
 
     public boolean deleteFoodFromOrders(Long id) {
         List<Order> orders = getAll();
-        Boolean result = false;
 
         for (Order o : orders) {
             for (Food f : o.getFoods()) {
                 if (f.getId().equals(id)) {
                     o.getFoods().remove(f);
-                    result = true;
+                    if (o.getFoods().isEmpty()) {
+                        repository.delete(o);
+                    } else {
+                        repository.save(o);
+                    }
+                    return true;
                 }
-            }
-
-            if (o.getFoods().isEmpty()) {
-                repository.delete(o);
             }
         }
 
-
-        return result;
+        return false;
     }
 }
