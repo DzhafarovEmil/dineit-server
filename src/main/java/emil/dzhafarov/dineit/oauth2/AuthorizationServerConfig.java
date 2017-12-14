@@ -1,6 +1,5 @@
 package emil.dzhafarov.dineit.oauth2;
 
-import emil.dzhafarov.dineit.AppConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,17 +18,11 @@ import javax.sql.DataSource;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
+    @Autowired
     private AuthenticationManager authenticationManager;
-    private final AppConfig appConfig;
 
     private static final Integer TOKEN_DURATION = 60 * 60 * 24;
     private static final Integer REFRESH_TOKEN_DURATION = TOKEN_DURATION * 90;
-
-    @Autowired
-    public AuthorizationServerConfig(AuthenticationManager authenticationManager, AppConfig appConfig) {
-        this.authenticationManager = authenticationManager;
-        this.appConfig = appConfig;
-    }
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
@@ -41,7 +34,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.jdbc(appConfig.dataSource())
+        clients.inMemory()
                 .withClient("dine-it-client")
                 .authorizedGrantTypes("client-credentials", "password", "refresh_token")
                 .authorities("ROLE_CLIENT", "ROLE_ANDROID_CLIENT")
@@ -55,7 +48,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
                 .authenticationManager(authenticationManager)
-                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
-                .tokenStore(appConfig.tokenStore());
+                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
     }
 }
