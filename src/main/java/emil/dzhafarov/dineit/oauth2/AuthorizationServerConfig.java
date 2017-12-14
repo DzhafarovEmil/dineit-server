@@ -33,9 +33,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
 
-    @Value("classpath:schema.sql")
-    private Resource schemaScript;
-
     @Value("${spring.datasource.url}")
     private String datasourceUrl;
 
