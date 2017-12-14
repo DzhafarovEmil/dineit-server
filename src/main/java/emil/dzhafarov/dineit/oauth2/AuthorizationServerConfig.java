@@ -29,7 +29,6 @@ import javax.sql.DataSource;
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
-    @Lazy
     @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
 
@@ -59,19 +58,21 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
                 .withClient("dine-it-client")
-                .authorizedGrantTypes("client-credentials", "password", "refresh_token")
+                .authorizedGrantTypes("authorization_code", "password", "refresh_token")
                 .authorities("ROLE_CLIENT", "ROLE_ANDROID_CLIENT")
+                .autoApprove(true)
                 .scopes("read", "write", "trust")
                 .resourceIds("oauth2-resource")
                 .accessTokenValiditySeconds(TOKEN_DURATION)
-                .secret("dine-it-client-pass").refreshTokenValiditySeconds(REFRESH_TOKEN_DURATION);
+                .secret("dine-it-client-pass")
+                .refreshTokenValiditySeconds(REFRESH_TOKEN_DURATION);
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
-                .authenticationManager(authenticationManager)
                 .tokenStore(tokenStore())
+                .authenticationManager(authenticationManager)
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
     }
 
