@@ -12,7 +12,7 @@ import static emil.dzhafarov.dineit.oauth2.AuthorizationServerConfig.tokenStore;
 
 @EnableResourceServer
 @Configuration
-public class OAuth2ResourceServer extends ResourceServerConfigurerAdapter {
+public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources.tokenStore(tokenStore);
