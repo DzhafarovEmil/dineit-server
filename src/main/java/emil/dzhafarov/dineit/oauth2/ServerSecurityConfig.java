@@ -22,7 +22,6 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     @Bean
-    @Lazy
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
