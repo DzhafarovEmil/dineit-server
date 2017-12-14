@@ -9,15 +9,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserService userService;
-
-    @Autowired
-    public CustomUserDetailsService(UserService userService) {
-        this.userService = userService;
-    }
+    private UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String email) {
         return this.userService.findByUsername(email);
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 }
