@@ -51,10 +51,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
-        dataSource.setDriverClassName(System.getProperty("jdbc.driverClassName"));
-        dataSource.setUrl(System.getProperty("jdbc.url"));
-        dataSource.setUsername(System.getProperty("jdbc.user"));
-        dataSource.setPassword(System.getProperty("jdbc.pass"));
+        String dbUrl = System.getenv("JDBC_DATABASE_URL");
+        String username = System.getenv("JDBC_DATABASE_USERNAME");
+        String password = System.getenv("JDBC_DATABASE_PASSWORD");
+
+        dataSource.setUrl(dbUrl);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
         return dataSource;
     }
 
