@@ -22,35 +22,14 @@ import javax.sql.DataSource;
 @EnableResourceServer
 public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-
-
-    @Value("${spring.datasource.url}")
-    private String datasourceUrl;
-
-    @Value("${spring.datasource.driver-class-name}")
-    private String dbDriverClassName;
-
-    @Value("${spring.datasource.username}")
-    private String dbUsername;
-
-    @Value("${spring.datasource.password}")
-    private String dbPassword;
-
-    @Bean
-    public DataSource dataSourceRes() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(dbDriverClassName);
-        dataSource.setUrl(datasourceUrl);
-        dataSource.setUsername(dbUsername);
-        dataSource.setPassword(dbPassword);
-        return dataSource;
-    }
+    @Autowired
+    private DataSource dataSource;
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources
                 .resourceId("oauth2-resource")
-                .tokenStore(new JdbcTokenStore(dataSourceRes()));
+                .tokenStore(new JdbcTokenStore(dataSource));
     }
 
     @Override
