@@ -9,25 +9,18 @@ import org.springframework.core.Ordered;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import javax.sql.DataSource;
-
+@EnableResourceServer
 @SpringBootApplication
 public class Application {
 
-	@Autowired
-	private UserDetailsService userDetailsService;
-
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
-	}
-
-	@Autowired
-	public void authenticationManager(AuthenticationManagerBuilder builder) throws Exception {
-		builder.userDetailsService(userDetailsService);
 	}
 
 	@Bean
