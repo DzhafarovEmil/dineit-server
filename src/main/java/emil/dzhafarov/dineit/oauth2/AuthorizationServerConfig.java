@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpMethod;
@@ -28,11 +29,9 @@ import javax.sql.DataSource;
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
+    @Lazy
     @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private Environment env;
 
     @Value("classpath:schema.sql")
     private Resource schemaScript;
