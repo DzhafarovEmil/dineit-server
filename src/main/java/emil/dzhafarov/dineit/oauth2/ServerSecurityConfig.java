@@ -24,13 +24,4 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/api/**").authenticated()
-                .antMatchers("/register-food-company/").permitAll()
-                .antMatchers("/register-customer/").permitAll()
-                .antMatchers("/login").permitAll();
-    }
 }
