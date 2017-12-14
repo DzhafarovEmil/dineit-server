@@ -16,7 +16,6 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PreAuthorize("#oauth2.hasScope('read')")
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAll();
