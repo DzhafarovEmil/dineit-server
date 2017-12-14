@@ -24,6 +24,8 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
     @Autowired
     DataSource dataSource;
 
+
+
     @Value("${spring.datasource.url}")
     private String datasourceUrl;
 
