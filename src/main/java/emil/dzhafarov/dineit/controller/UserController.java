@@ -5,6 +5,7 @@ import emil.dzhafarov.dineit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @PreAuthorize("#oauth2.hasScope('read')")
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAll();
