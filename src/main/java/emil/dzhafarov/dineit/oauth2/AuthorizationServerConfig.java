@@ -52,7 +52,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory()
+        clients.jdbc(dataSource())
                 .withClient("dine-it-client")
                 .authorizedGrantTypes("authorization_code", "password", "refresh_token")
                 .authorities("ROLE_CLIENT", "ROLE_ANDROID_CLIENT")
