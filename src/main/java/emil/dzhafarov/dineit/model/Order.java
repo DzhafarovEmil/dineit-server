@@ -1,13 +1,10 @@
 package emil.dzhafarov.dineit.model;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
+
 
 @Entity
 @Table(name="\"order\"", schema = "dineit")
@@ -40,6 +37,9 @@ public class Order implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+
+    @OneToOne(targetEntity = QRCode.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private QRCode qrCode;
 
     public Order() {}
 
@@ -105,5 +105,13 @@ public class Order implements Serializable {
 
     public void setFoodCompany(FoodCompany foodCompany) {
         this.foodCompany = foodCompany;
+    }
+
+    public QRCode getQrCode() {
+        return qrCode;
+    }
+
+    public void setQrCode(QRCode qrCode) {
+        this.qrCode = qrCode;
     }
 }

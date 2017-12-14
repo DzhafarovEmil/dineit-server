@@ -5,13 +5,11 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
-import emil.dzhafarov.dineit.model.Customer;
-import emil.dzhafarov.dineit.model.Food;
-import emil.dzhafarov.dineit.model.FoodCompany;
-import emil.dzhafarov.dineit.model.Order;
+import emil.dzhafarov.dineit.model.*;
 import emil.dzhafarov.dineit.service.CustomerService;
 import emil.dzhafarov.dineit.service.FoodCompanyService;
 import emil.dzhafarov.dineit.service.OrderService;
+import emil.dzhafarov.dineit.service.QRCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +34,8 @@ public class OrderController {
     private FoodCompanyService foodCompanyService;
     @Autowired
     private CustomerService customerService;
+    @Autowired
+    private QRCodeService qrCodeService;
 
     @RequestMapping(value = "/order", method = RequestMethod.GET)
     public ResponseEntity<List<Order>> getAllOrders(@RequestParam("user") String userType,
@@ -89,7 +89,7 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/create-order/", method = RequestMethod.POST)
-    public ResponseEntity<byte[]> createOrder(@RequestParam("food_company_id") Long foodCompanyId,
+    public ResponseEntity<QRCode> createOrder(@RequestParam("food_company_id") Long foodCompanyId,
                                               @RequestBody Order order,
                                               Principal principal) throws IOException, WriterException {
         FoodCompany foodCompany = foodCompanyService.findById(foodCompanyId);
@@ -101,14 +101,18 @@ public class OrderController {
             }
             order.setCustomer(customer);
             order.setFoodCompany(foodCompany);
+            order.setOrderedTime(System.currentTimeMillis());
+            byte[] bytes = getQRCodeImage(order.toString(), 400, 400);
+            QRCode objCode = new QRCode(bytes);
+            objCode.setId(qrCodeService.create(objCode));
+            order.setQrCode(objCode);
             Long id = orderService.create(order);
             order.setId(id);
 
-            byte[] qrCode = getQRCodeImage(order.toString(), 400, 400);
-            return new ResponseEntity<>(qrCode, HttpStatus.CREATED);
+            return new ResponseEntity<>(objCode, HttpStatus.CREATED);
         }
 
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @RequestMapping(value = "/order/{id}", method = RequestMethod.PUT)
