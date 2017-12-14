@@ -23,6 +23,7 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
     @Autowired
     private TokenStore tokenStore;
 
+
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources
