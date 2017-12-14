@@ -53,16 +53,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.jdbc(dataSource())
-                .withClient("dine-it-client")
-                .authorizedGrantTypes("authorization_code", "password", "refresh_token")
-                .authorities("ROLE_CLIENT", "ROLE_ANDROID_CLIENT")
-                .autoApprove(true)
-                .scopes("read", "write", "trust")
-                .resourceIds("oauth2-resource")
-                .accessTokenValiditySeconds(TOKEN_DURATION)
-                .secret("dine-it-client-pass")
-                .refreshTokenValiditySeconds(REFRESH_TOKEN_DURATION);
+        clients.jdbc(dataSource());
     }
 
     @Override
