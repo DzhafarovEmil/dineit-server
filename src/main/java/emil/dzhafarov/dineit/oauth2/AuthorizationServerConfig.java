@@ -29,6 +29,7 @@ import javax.sql.DataSource;
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
+    @Lazy
     @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
 
