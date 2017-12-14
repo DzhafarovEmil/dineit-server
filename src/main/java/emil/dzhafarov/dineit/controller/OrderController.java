@@ -1,5 +1,10 @@
 package emil.dzhafarov.dineit.controller;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import emil.dzhafarov.dineit.model.Customer;
 import emil.dzhafarov.dineit.model.Food;
 import emil.dzhafarov.dineit.model.FoodCompany;
@@ -12,11 +17,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.security.Principal;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -64,10 +68,10 @@ public class OrderController {
 
     private void sortList(Integer sort, List<Order> orders) {
         if (sort.equals(1)) {
-            orders.sort(((o1, o2) -> (int)(o2.getOrderedTime() - o1.getOrderedTime())));
+            orders.sort(((o1, o2) -> (int) (o2.getOrderedTime() - o1.getOrderedTime())));
         }
         if (sort.equals(0)) {
-            orders.sort(((o1, o2) -> (int)(o1.getOrderedTime() - o2.getOrderedTime())));
+            orders.sort(((o1, o2) -> (int) (o1.getOrderedTime() - o2.getOrderedTime())));
         }
     }
 
@@ -85,9 +89,9 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/create-order/", method = RequestMethod.POST)
-    public ResponseEntity<Order> createOrder(@RequestParam("food_company_id") Long foodCompanyId,
-                                            @RequestBody Order order,
-                                            Principal principal) {
+    public ResponseEntity<byte[]> createOrder(@RequestParam("food_company_id") Long foodCompanyId,
+                                              @RequestBody Order order,
+                                              Principal principal) throws IOException, WriterException {
         FoodCompany foodCompany = foodCompanyService.findById(foodCompanyId);
         Customer customer = customerService.findByUsername(principal.getName());
 
@@ -99,7 +103,9 @@ public class OrderController {
             order.setFoodCompany(foodCompany);
             Long id = orderService.create(order);
             order.setId(id);
-            return new ResponseEntity<>(order, HttpStatus.CREATED);
+
+            byte[] qrCode = getQRCodeImage(order.toString(), 400, 400);
+            return new ResponseEntity<>(qrCode, HttpStatus.CREATED);
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -119,5 +125,14 @@ public class OrderController {
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    private byte[] getQRCodeImage(String text, int width, int height) throws WriterException, IOException {
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height);
+
+        ByteArrayOutputStream pngOutputStream = new ByteArrayOutputStream();
+        MatrixToImageWriter.writeToStream(bitMatrix, "PNG", pngOutputStream);
+        return pngOutputStream.toByteArray();
     }
 }
