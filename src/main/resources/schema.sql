@@ -14,7 +14,7 @@ create table if not exists oauth_client_details (
 
 create table if not exists oauth_client_token (
   token_id VARCHAR(255),
-  token VARCHAR(155),
+  token 	BYTEA,
   authentication_id VARCHAR(255) PRIMARY KEY,
   user_name VARCHAR(255),
   client_id VARCHAR(255)
@@ -22,31 +22,32 @@ create table if not exists oauth_client_token (
 
 create table if not exists oauth_access_token (
   token_id VARCHAR(255),
-  token VARCHAR(255),
+  token 	BYTEA,
   authentication_id VARCHAR(255) PRIMARY KEY,
   user_name VARCHAR(255),
   client_id VARCHAR(255),
-  authentication VARCHAR(255),
+  authentication 	BYTEA,
   refresh_token VARCHAR(255)
 );
 
 create table if not exists oauth_refresh_token (
   token_id VARCHAR(255),
-  token VARCHAR(255),
-  authentication VARCHAR(255)
+  token 	BYTEA,
+  authentication 	BYTEA
 );
 
 create table if not exists oauth_code (
-  code VARCHAR(255), authentication VARCHAR(255)
+  code VARCHAR(255),
+  authentication 	BYTEA
 );
 
 create table if not exists oauth_approvals (
-    userId VARCHAR(255),
-    clientId VARCHAR(255),
-    scope VARCHAR(255),
-    status VARCHAR(10),
-    expiresAt TIMESTAMP,
-    lastModifiedAt TIMESTAMP
+  userId VARCHAR(255),
+  clientId VARCHAR(255),
+  scope VARCHAR(255),
+  status VARCHAR(10),
+  expiresAt TIMESTAMP,
+  lastModifiedAt TIMESTAMP
 );
 
 create table if not exists ClientDetails (
