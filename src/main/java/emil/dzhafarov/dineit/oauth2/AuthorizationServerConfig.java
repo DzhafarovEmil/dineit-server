@@ -37,6 +37,18 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Value("classpath:schema.sql")
     private Resource schemaScript;
 
+    @Value("${spring.datasource.url}")
+    private String datasourceUrl;
+
+    @Value("${spring.datasource.driver-class-name}")
+    private String dbDriverClassName;
+
+    @Value("${spring.datasource.username}")
+    private String dbUsername;
+
+    @Value("${spring.datasource.password}")
+    private String dbPassword;
+
     private static final Integer TOKEN_DURATION = 60 * 60 * 24;
     private static final Integer REFRESH_TOKEN_DURATION = TOKEN_DURATION * 90;
 
@@ -71,13 +83,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        String dbUrl = env.getProperty("JDBC_DATABASE_URL");
-        String username = env.getProperty("JDBC_DATABASE_USERNAME");
-        String password = env.getProperty("JDBC_DATABASE_PASSWORD");
-
-        dataSource.setUrl(dbUrl);
-        dataSource.setUsername(username);
-        dataSource.setPassword(password);
+        dataSource.setDriverClassName(dbDriverClassName);
+        dataSource.setUrl(datasourceUrl);
+        dataSource.setUsername(dbUsername);
+        dataSource.setPassword(dbPassword);
         return dataSource;
     }
 
