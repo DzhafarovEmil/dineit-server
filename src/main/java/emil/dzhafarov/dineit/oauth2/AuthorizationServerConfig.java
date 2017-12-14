@@ -34,8 +34,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients
-                .jdbc(dataSource())
+        clients.inMemory()
                 .withClient("dine-it-client")
                 .authorizedGrantTypes("client-credentials", "password", "refresh_token")
                 .authorities("ROLE_CLIENT", "ROLE_ANDROID_CLIENT")
@@ -43,22 +42,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .resourceIds("oauth2-resource")
                 .accessTokenValiditySeconds(TOKEN_DURATION)
                 .secret("dine-it-client-pass").refreshTokenValiditySeconds(REFRESH_TOKEN_DURATION);
-    }
-
-
-
-    @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-
-        String dbUrl = System.getenv("JDBC_DATABASE_URL");
-        String username = System.getenv("JDBC_DATABASE_USERNAME");
-        String password = System.getenv("JDBC_DATABASE_PASSWORD");
-
-        dataSource.setUrl(dbUrl);
-        dataSource.setUsername(username);
-        dataSource.setPassword(password);
-        return dataSource;
     }
 
     @Override

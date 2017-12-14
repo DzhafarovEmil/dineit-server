@@ -18,8 +18,16 @@ import javax.sql.DataSource;
 @SpringBootApplication
 public class Application {
 
+	@Autowired
+	private UserDetailsService userDetailsService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
+	}
+
+	@Autowired
+	public void authenticationManager(AuthenticationManagerBuilder builder) throws Exception {
+		builder.userDetailsService(userDetailsService);
 	}
 
 	@Bean
