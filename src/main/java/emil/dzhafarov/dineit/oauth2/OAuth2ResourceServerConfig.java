@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.method.configuration.Globa
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.expression.OAuth2MethodSecurityExpressionHandler;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
@@ -20,9 +21,6 @@ import javax.sql.DataSource;
 @Configuration
 @EnableResourceServer
 public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter {
-
-    @Autowired
-    DataSource dataSource;
 
 
 
@@ -38,10 +36,21 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
     @Value("${spring.datasource.password}")
     private String dbPassword;
 
-
     @Bean
-    public TokenStore tokenStore() {
-        return new JdbcTokenStore(dataSource);
+    public DataSource dataSourceRes() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(dbDriverClassName);
+        dataSource.setUrl(datasourceUrl);
+        dataSource.setUsername(dbUsername);
+        dataSource.setPassword(dbPassword);
+        return dataSource;
+    }
+
+    @Override
+    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+        resources
+                .resourceId("oauth2-resource")
+                .tokenStore(new JdbcTokenStore(dataSourceRes()));
     }
 
     @Override
