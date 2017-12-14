@@ -45,6 +45,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .secret("dine-it-client-pass").refreshTokenValiditySeconds(REFRESH_TOKEN_DURATION);
     }
 
+
+
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
