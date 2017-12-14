@@ -10,8 +10,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 @Configuration
+@EnableResourceServer
 public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -31,6 +33,10 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+        http.csrf().disable().authorizeRequests()
+                .antMatchers("/api/**").authenticated()
+                .antMatchers("/register-food-company/").permitAll()
+                .antMatchers("/register-customer/").permitAll()
+                .antMatchers("/login").permitAll();
     }
 }
