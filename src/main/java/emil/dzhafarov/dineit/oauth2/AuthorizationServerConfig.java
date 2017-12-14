@@ -40,6 +40,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Value("${spring.datasource.password}")
     private String dbPassword;
 
+
     private static final Integer TOKEN_DURATION = 60 * 60 * 24;
     private static final Integer REFRESH_TOKEN_DURATION = TOKEN_DURATION * 90;
 
