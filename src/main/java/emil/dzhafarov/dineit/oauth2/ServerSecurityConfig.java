@@ -6,8 +6,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 @Configuration
+@EnableResourceServer
 public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
@@ -26,6 +28,9 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/api/**").authenticated()
+                .antMatchers("/register-food-company/").permitAll()
+                .antMatchers("/register-customer/").permitAll()
                 .antMatchers("/login").permitAll();
     }
+
 }
