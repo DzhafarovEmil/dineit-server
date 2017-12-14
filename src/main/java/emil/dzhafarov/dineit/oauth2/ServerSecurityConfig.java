@@ -35,6 +35,6 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/**").authenticated()
                 .antMatchers("/register-food-company/").permitAll()
                 .antMatchers("/register-customer/").permitAll()
-                .antMatchers("/login").permitAll().and().formLogin();
+                .antMatchers("/login").permitAll();
     }
 }
