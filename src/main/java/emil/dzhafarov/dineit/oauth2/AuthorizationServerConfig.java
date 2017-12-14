@@ -41,9 +41,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private String dbPassword;
 
 
-    private static final Integer TOKEN_DURATION = 60 * 60 * 24;
-    private static final Integer REFRESH_TOKEN_DURATION = TOKEN_DURATION * 90;
-
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security

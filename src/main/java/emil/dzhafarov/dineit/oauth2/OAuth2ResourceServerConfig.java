@@ -19,7 +19,6 @@ import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
 import javax.sql.DataSource;
 
-@Primary
 @Configuration
 @EnableResourceServer
 public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter {
@@ -32,14 +31,5 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
         resources
                 .resourceId("oauth2-resource")
                 .tokenStore(new JdbcTokenStore(dataSource));
-    }
-
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/api/**").authenticated()
-                .antMatchers("/register-food-company/").permitAll()
-                .antMatchers("/register-customer/").permitAll()
-                .antMatchers("/login").permitAll();
     }
 }
