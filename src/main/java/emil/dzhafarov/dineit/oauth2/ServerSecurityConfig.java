@@ -33,8 +33,10 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
                 csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/**").authenticated()
-                .antMatchers("/register-food-company/").permitAll()
-                .antMatchers("/register-customer/").permitAll()
-                .antMatchers("/login").permitAll();
+                .antMatchers(
+                        "/register-food-company/",
+                        "/register-customer/",
+                        "/login")
+                .permitAll();
     }
 }
