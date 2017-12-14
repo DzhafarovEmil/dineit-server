@@ -23,32 +23,27 @@ import javax.sql.DataSource;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    @Autowired
-    @Lazy
-    @Qualifier("authenticationManagerBean")
-    private AuthenticationManager authenticationManager;
+    private static String datasourceUrl = "jdbc:postgresql://ec2-54-75-239-190.eu-west-1.compute.amazonaws.com:5432/dklrind25jm3s?sslmode=require";
+    private static String dbDriverClassName = "org.postgresql.Driver";
+    private static String dbUsername = "lvbmxtmmspgzjc";
+    private static String dbPassword = "db75c05d031da55931a4927e81f1b92203b6e9a85153738c83189d3a87ed7294";
 
-    @Value("${spring.datasource.url}")
-    private static String datasourceUrl;
+    private static DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
-    @Value("${spring.datasource.driver-class-name}")
-    private static String dbDriverClassName;
-
-    @Value("${spring.datasource.username}")
-    private static String dbUsername;
-
-    @Value("${spring.datasource.password}")
-    private static String dbPassword;
-
-    private static TokenStore tokenStore = new JdbcTokenStore(dataSource());
-    private static DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+    static {
+        dataSource.setDriverClassName(dbDriverClassName);
         dataSource.setDriverClassName(dbDriverClassName);
         dataSource.setUrl(datasourceUrl);
         dataSource.setUsername(dbUsername);
         dataSource.setPassword(dbPassword);
-        return dataSource;
     }
+
+    public static TokenStore tokenStore = new JdbcTokenStore(dataSource);
+
+    @Autowired
+    @Lazy
+    @Qualifier("authenticationManagerBean")
+    private AuthenticationManager authenticationManager;
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
@@ -59,19 +54,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.jdbc(dataSource());
+        clients.jdbc(dataSource);
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
-                .tokenStore(tokenStore())
+                .tokenStore(tokenStore)
                 .authenticationManager(authenticationManager)
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
-    }
-
-    @Bean
-    public TokenStore tokenStore() {
-        return tokenStore;
     }
 }
