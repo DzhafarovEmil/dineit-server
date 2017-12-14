@@ -15,21 +15,18 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.expression.OAuth2MethodSecurityExpressionHandler;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
-
-import javax.sql.DataSource;
 
 @Configuration
 @EnableResourceServer
 public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Autowired
-    private DataSource dataSource;
+    private TokenStore tokenStore;
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources
                 .resourceId("oauth2-resource")
-                .tokenStore(new JdbcTokenStore(dataSource));
+                .tokenStore(tokenStore);
     }
 }

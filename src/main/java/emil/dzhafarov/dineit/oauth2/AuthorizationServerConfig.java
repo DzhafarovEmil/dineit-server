@@ -29,17 +29,26 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private AuthenticationManager authenticationManager;
 
     @Value("${spring.datasource.url}")
-    private String datasourceUrl;
+    private static String datasourceUrl;
 
     @Value("${spring.datasource.driver-class-name}")
-    private String dbDriverClassName;
+    private static String dbDriverClassName;
 
     @Value("${spring.datasource.username}")
-    private String dbUsername;
+    private static String dbUsername;
 
     @Value("${spring.datasource.password}")
-    private String dbPassword;
+    private static String dbPassword;
 
+    private static TokenStore tokenStore = new JdbcTokenStore(dataSource());
+    private static DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(dbDriverClassName);
+        dataSource.setUrl(datasourceUrl);
+        dataSource.setUsername(dbUsername);
+        dataSource.setPassword(dbPassword);
+        return dataSource;
+    }
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
@@ -62,17 +71,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(dbDriverClassName);
-        dataSource.setUrl(datasourceUrl);
-        dataSource.setUsername(dbUsername);
-        dataSource.setPassword(dbPassword);
-        return dataSource;
-    }
-
-    @Bean
     public TokenStore tokenStore() {
-        return new JdbcTokenStore(dataSource());
+        return tokenStore;
     }
 }
