@@ -6,8 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.Ordered;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -15,16 +13,8 @@ import org.springframework.web.filter.CorsFilter;
 @SpringBootApplication
 public class Application {
 
-	@Autowired
-	private UserDetailsService userDetailsService;
-
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
-	}
-
-	@Autowired
-	public void authenticationManager(AuthenticationManagerBuilder builder) throws Exception {
-		builder.userDetailsService(userDetailsService);
 	}
 
 	@Bean
