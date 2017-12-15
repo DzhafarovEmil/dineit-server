@@ -62,7 +62,7 @@ public class OrderController {
             }
         }
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 
@@ -85,7 +85,7 @@ public class OrderController {
             return new ResponseEntity<>(foods, HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @RequestMapping(value = "/create-order/", method = RequestMethod.POST)
