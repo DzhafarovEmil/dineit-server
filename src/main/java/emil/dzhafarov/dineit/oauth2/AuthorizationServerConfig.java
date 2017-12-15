@@ -7,8 +7,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -16,8 +18,11 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import java.io.IOException;
 
 @Configuration
 @EnableAuthorizationServer
@@ -44,6 +49,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Lazy
     @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    @ExceptionHandler(UsernameNotFoundException.class)
+    void handleBadRequests(HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.UNAUTHORIZED.value(), "Bad Credentials");
+    }
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
