@@ -126,7 +126,6 @@ public class Order implements Serializable {
                 ", fridge=" + fridge +
                 ", foods=" + foods +
                 ", status=" + status +
-                ", qrCode=" + qrCode +
                 '}';
     }
 }

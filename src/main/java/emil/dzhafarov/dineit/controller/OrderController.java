@@ -6,10 +6,7 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import emil.dzhafarov.dineit.model.*;
-import emil.dzhafarov.dineit.service.CustomerService;
-import emil.dzhafarov.dineit.service.FoodCompanyService;
-import emil.dzhafarov.dineit.service.OrderService;
-import emil.dzhafarov.dineit.service.QRCodeService;
+import emil.dzhafarov.dineit.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +33,8 @@ public class OrderController {
     private CustomerService customerService;
     @Autowired
     private QRCodeService qrCodeService;
+    @Autowired
+    private FridgeService fridgeService;
 
     @RequestMapping(value = "/order", method = RequestMethod.GET)
     public ResponseEntity<List<Order>> getAllOrders(@RequestParam("user") String userType,
@@ -66,15 +65,6 @@ public class OrderController {
     }
 
 
-    private void sortList(Integer sort, List<Order> orders) {
-        if (sort.equals(1)) {
-            orders.sort(((o1, o2) -> (int) (o2.getOrderedTime() - o1.getOrderedTime())));
-        }
-        if (sort.equals(0)) {
-            orders.sort(((o1, o2) -> (int) (o1.getOrderedTime() - o2.getOrderedTime())));
-        }
-    }
-
     @RequestMapping(value = "/order/{order_id}/foods", method = RequestMethod.GET)
     public ResponseEntity<List<Food>> getAllFoodsInOrder(@PathVariable("order_id") Long orderId) {
         Order order = orderService.findById(orderId);
@@ -90,21 +80,24 @@ public class OrderController {
 
     @RequestMapping(value = "/create-order/", method = RequestMethod.POST)
     public ResponseEntity<QRCode> createOrder(@RequestParam("food_company_id") Long foodCompanyId,
+                                              @RequestParam("fridge_id") Long fridgeId,
                                               @RequestBody Order order,
                                               Principal principal) throws IOException, WriterException {
         FoodCompany foodCompany = foodCompanyService.findById(foodCompanyId);
         Customer customer = customerService.findByUsername(principal.getName());
+        Fridge fridge = fridgeService.findById(fridgeId);
 
-        if (foodCompany != null && customer != null) {
+        if (foodCompany != null && customer != null && fridge != null) {
             if (orderService.isExist(order)) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
+            order.setFridge(fridge);
             order.setCustomer(customer);
             order.setFoodCompany(foodCompany);
             order.setOrderedTime(System.currentTimeMillis());
             Long id = orderService.create(order);
             order.setId(id);
-            byte[] bytes = getQRCodeImage(order.toString(), 400, 400);
+            byte[] bytes = getQRCodeImage(encodeToBase64(order.toString()));
             QRCode objCode = new QRCode(bytes);
             objCode.setId(qrCodeService.create(objCode));
             order.setQrCode(objCode);
@@ -115,6 +108,28 @@ public class OrderController {
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @RequestMapping(value = "/validate/", method = RequestMethod.POST)
+    public ResponseEntity<Order> validate(@RequestParam("qr_code") String qrCode,
+                                              Principal principal) throws IOException, WriterException {
+        Fridge fridge = fridgeService.findByUsername(principal.getName());
+
+        if (fridge != null) {
+            QRCode code = new QRCode(qrCode.getBytes());
+            Order order = orderService.findOrderByQRCode(code);
+
+            if (order != null) {
+                order.setStatus(OrderStatus.RECEIVED);
+                orderService.update(order);
+                return new ResponseEntity<>(order, HttpStatus.OK);
+            }
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
 
     @RequestMapping(value = "/order/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Long> updateOrder(@PathVariable("id") Long id, @RequestBody Order order, Principal principal) {
@@ -132,12 +147,29 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    private byte[] getQRCodeImage(String text, int width, int height) throws WriterException, IOException {
+    private byte[] getQRCodeImage(String text) throws WriterException, IOException {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
-        BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height);
+        BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, 400, 400);
 
         ByteArrayOutputStream pngOutputStream = new ByteArrayOutputStream();
         MatrixToImageWriter.writeToStream(bitMatrix, "PNG", pngOutputStream);
         return pngOutputStream.toByteArray();
+    }
+
+    private void sortList(Integer sort, List<Order> orders) {
+        if (sort.equals(1)) {
+            orders.sort(((o1, o2) -> (int) (o2.getOrderedTime() - o1.getOrderedTime())));
+        }
+        if (sort.equals(0)) {
+            orders.sort(((o1, o2) -> (int) (o1.getOrderedTime() - o2.getOrderedTime())));
+        }
+    }
+
+    private String encodeToBase64(String result) {
+        return new String(Base64.getEncoder().encode(result.getBytes()));
+    }
+
+    private String decodeFromBase64(String result) {
+        return new String(Base64.getDecoder().decode(result.getBytes()));
     }
 }

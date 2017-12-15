@@ -1,5 +1,6 @@
 package emil.dzhafarov.dineit.service;
 
+import emil.dzhafarov.dineit.model.FoodCompany;
 import emil.dzhafarov.dineit.model.Fridge;
 import emil.dzhafarov.dineit.persistence.FridgeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,10 @@ public class FridgeService implements RestContract<Fridge>{
     @Override
     public Fridge findById(Long id) {
         return repository.findOne(id);
+    }
+
+    public Fridge findByUsername(String username) {
+        return repository.findByUsername(username);
     }
 
     @Override

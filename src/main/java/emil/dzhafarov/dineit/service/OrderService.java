@@ -1,9 +1,6 @@
 package emil.dzhafarov.dineit.service;
 
-import emil.dzhafarov.dineit.model.Customer;
-import emil.dzhafarov.dineit.model.Food;
-import emil.dzhafarov.dineit.model.FoodCompany;
-import emil.dzhafarov.dineit.model.Order;
+import emil.dzhafarov.dineit.model.*;
 import emil.dzhafarov.dineit.persistence.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +38,10 @@ public class OrderService implements RestContract<Order> {
 
     public List<Order> findByFoodCompany(FoodCompany foodCompany) {
         return repository.findByFoodCompany(foodCompany);
+    }
+
+    public Order findOrderByQRCode(QRCode qrCode) {
+        return repository.findByQrCodeEqualsAndStatusNotLike(qrCode, OrderStatus.RECEIVED);
     }
 
     @Override
