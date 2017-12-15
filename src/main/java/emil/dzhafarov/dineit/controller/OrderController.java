@@ -102,13 +102,13 @@ public class OrderController {
             order.setCustomer(customer);
             order.setFoodCompany(foodCompany);
             order.setOrderedTime(System.currentTimeMillis());
+            Long id = orderService.create(order);
+            order.setId(id);
             byte[] bytes = getQRCodeImage(order.toString(), 400, 400);
             QRCode objCode = new QRCode(bytes);
             objCode.setId(qrCodeService.create(objCode));
             order.setQrCode(objCode);
-            System.out.println(Arrays.toString(objCode.getData()));
-            Long id = orderService.create(order);
-            order.setId(id);
+            orderService.update(order);
 
             return new ResponseEntity<>(objCode, HttpStatus.CREATED);
         }
