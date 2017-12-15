@@ -50,12 +50,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
 
-    @Autowired
-    @ExceptionHandler(UsernameNotFoundException.class)
-    void handleBadRequests(HttpServletResponse response) throws IOException {
-        response.sendError(HttpStatus.UNAUTHORIZED.value(), "Bad Credentials");
-    }
-
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security
