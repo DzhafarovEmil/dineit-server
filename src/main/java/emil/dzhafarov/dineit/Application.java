@@ -13,9 +13,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 @SpringBootApplication
 public class Application {
 
@@ -23,10 +20,6 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
-//	@ExceptionHandler(UsernameNotFoundException.class)
-//	void handleBadRequests(HttpServletResponse response) throws IOException {
-//		response.sendError(HttpStatus.UNAUTHORIZED.value(), "Bad Credentials");
-//	}
 
 	@Bean
 	public FilterRegistrationBean corsFilter() {
