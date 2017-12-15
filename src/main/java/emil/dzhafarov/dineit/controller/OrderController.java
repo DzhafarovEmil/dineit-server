@@ -109,11 +109,10 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "/validate/", method = RequestMethod.POST)
+    @RequestMapping(value = "/validate", method = RequestMethod.GET)
     public ResponseEntity<Order> validate(@RequestParam("qr_code") String qrCode,
                                               Principal principal) throws IOException, WriterException {
         Fridge fridge = fridgeService.findByUsername(principal.getName());
-
 
         System.out.println("FRIDGE ===> " + fridge);
         if (fridge != null) {
