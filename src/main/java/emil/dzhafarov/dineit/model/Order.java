@@ -114,4 +114,19 @@ public class Order implements Serializable {
     public void setQrCode(QRCode qrCode) {
         this.qrCode = qrCode;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", orderedTime=" + orderedTime +
+                ", price=" + price +
+                ", customer=" + customer +
+                ", foodCompany=" + foodCompany +
+                ", fridge=" + fridge +
+                ", foods=" + foods +
+                ", status=" + status +
+                ", qrCode=" + qrCode +
+                '}';
+    }
 }
