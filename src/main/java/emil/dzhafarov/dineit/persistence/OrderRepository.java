@@ -12,5 +12,5 @@ public interface OrderRepository extends CrudRepository<Order, Long> {
 
     List<Order> findByFoodCompany(FoodCompany foodCompany);
 
-    Order findByQrCodeEqualsAndStatusNotLike(QRCode qrCode, OrderStatus status);
+    Order findByQrCode(QRCode qrCode);
 }

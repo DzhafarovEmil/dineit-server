@@ -41,7 +41,7 @@ public class OrderService implements RestContract<Order> {
     }
 
     public Order findOrderByQRCode(QRCode qrCode) {
-        return repository.findByQrCodeEqualsAndStatusNotLike(qrCode, OrderStatus.RECEIVED);
+        return repository.findByQrCode(qrCode);
     }
 
     @Override

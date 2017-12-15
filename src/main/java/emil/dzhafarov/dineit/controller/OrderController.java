@@ -115,13 +115,12 @@ public class OrderController {
         Fridge fridge = fridgeService.findByUsername(principal.getName());
 
         if (fridge != null) {
-            QRCode code = new QRCode(qrCode.getBytes());
+            QRCode code = qrCodeService.findByData(qrCode.getBytes());
             Order order = orderService.findOrderByQRCode(code);
 
-            if (order != null) {
+            if (order != null && order.getStatus() != OrderStatus.RECEIVED) {
                 order.setStatus(OrderStatus.RECEIVED);
                 orderService.update(order);
-                System.out.println("ORDER ID ===> " + order.getId());
                 return new ResponseEntity<>(order, HttpStatus.OK);
             }
 
