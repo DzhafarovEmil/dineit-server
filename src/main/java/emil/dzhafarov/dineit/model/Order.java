@@ -120,11 +120,8 @@ public class Order implements Serializable {
         return "Order{" +
                 "id=" + id +
                 ", orderedTime=" + orderedTime +
-                ", price=" + price +
                 ", customer=" + customer +
-                ", foodCompany=" + foodCompany +
                 ", fridge=" + fridge +
-                ", foods=" + foods +
                 ", status=" + status +
                 '}';
     }
