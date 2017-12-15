@@ -114,9 +114,13 @@ public class OrderController {
                                               Principal principal) throws IOException, WriterException {
         Fridge fridge = fridgeService.findByUsername(principal.getName());
 
+
+        System.out.println("FRIDGE ===> " + fridge);
         if (fridge != null) {
             QRCode code = qrCodeService.findByData(qrCode.getBytes());
+            System.out.println("QRCODE ===> " + code);
             Order order = orderService.findOrderByQRCode(code);
+            System.out.println("ORDER ===> " + order);
 
             if (order != null && order.getStatus() != OrderStatus.RECEIVED) {
                 order.setStatus(OrderStatus.RECEIVED);
