@@ -23,10 +23,10 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
-	@ExceptionHandler(UsernameNotFoundException.class)
-	void handleBadRequests(HttpServletResponse response) throws IOException {
-		response.sendError(HttpStatus.UNAUTHORIZED.value(), "Bad Credentials");
-	}
+//	@ExceptionHandler(UsernameNotFoundException.class)
+//	void handleBadRequests(HttpServletResponse response) throws IOException {
+//		response.sendError(HttpStatus.UNAUTHORIZED.value(), "Bad Credentials");
+//	}
 
 	@Bean
 	public FilterRegistrationBean corsFilter() {
