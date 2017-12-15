@@ -109,17 +109,25 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "/validate", method = RequestMethod.GET)
-    public ResponseEntity<Order> validate(@RequestParam("qr_code") String qrCode) throws IOException, WriterException {
-        QRCode code = qrCodeService.findByData(qrCode.getBytes());
-        System.out.println("QRCODE ===> " + code);
-        Order order = orderService.findOrderByQRCode(code);
-        System.out.println("ORDER ===> " + order);
+    @RequestMapping(value = "/order/validate", method = RequestMethod.GET)
+    public ResponseEntity<Order> validate(@RequestParam("qr_code") String qrCode,
+                                              Principal principal) throws IOException, WriterException {
+        Fridge fridge = fridgeService.findByUsername(principal.getName());
 
-        if (order != null && order.getStatus() != OrderStatus.RECEIVED) {
-            order.setStatus(OrderStatus.RECEIVED);
-            orderService.update(order);
-            return new ResponseEntity<>(order, HttpStatus.OK);
+        System.out.println("FRIDGE ===> " + fridge);
+        if (fridge != null) {
+            QRCode code = qrCodeService.findByData(qrCode.getBytes());
+            System.out.println("QRCODE ===> " + code);
+            Order order = orderService.findOrderByQRCode(code);
+            System.out.println("ORDER ===> " + order);
+
+            if (order != null && order.getStatus() != OrderStatus.RECEIVED) {
+                order.setStatus(OrderStatus.RECEIVED);
+                orderService.update(order);
+                return new ResponseEntity<>(order, HttpStatus.OK);
+            }
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
