@@ -121,6 +121,7 @@ public class OrderController {
             if (order != null) {
                 order.setStatus(OrderStatus.RECEIVED);
                 orderService.update(order);
+                System.out.println("ORDER ID ===> " + order.getId());
                 return new ResponseEntity<>(order, HttpStatus.OK);
             }
 

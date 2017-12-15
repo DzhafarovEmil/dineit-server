@@ -2,6 +2,7 @@ package emil.dzhafarov.dineit.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Arrays;
 
 @Entity
 @Table(name = "qrcode", schema = "dineit")
@@ -38,5 +39,20 @@ public class QRCode implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        QRCode qrCode = (QRCode) o;
+
+        return Arrays.equals(data, qrCode.data);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(data);
     }
 }
