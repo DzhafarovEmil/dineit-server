@@ -122,9 +122,7 @@ public class OrderController {
         System.out.println("FRIDGE ===> " + fridge);
         if (fridge != null) {
 
-            System.out.println(qrCodeService.findByData(qrCode.getBytes()));
-
-            /* QRCode code = qrCodeService.findByData(qrCode.getBytes());
+            QRCode code = qrCodeService.findByData(qrCode.getBytes());
             System.out.println("QRCODE ===> " + code);
             Order order = orderService.findOrderByQRCode(code);
             System.out.println("ORDER ===> " + order);
@@ -133,7 +131,7 @@ public class OrderController {
                 order.setStatus(OrderStatus.RECEIVED);
                 orderService.update(order);
                 return new ResponseEntity<>(order, HttpStatus.OK);
-            }*/
+            }
 
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

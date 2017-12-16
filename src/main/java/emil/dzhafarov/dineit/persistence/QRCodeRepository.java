@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface QRCodeRepository extends CrudRepository<QRCode, Long> {
 
-    List<QRCode> findByData(byte[] data);
+    QRCode findQRCodeByData(byte[] data);
 }
