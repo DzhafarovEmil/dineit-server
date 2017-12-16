@@ -122,7 +122,6 @@ public class Order implements Serializable {
                 ", orderedTime=" + orderedTime +
                 ", customer=" + customer +
                 ", fridge=" + fridge +
-                ", status=" + status +
                 '}';
     }
 }
