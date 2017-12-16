@@ -78,6 +78,8 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    private String issuedValue;
+
     @RequestMapping(value = "/create-order/", method = RequestMethod.POST)
     public ResponseEntity<QRCode> createOrder(@RequestParam("food_company_id") Long foodCompanyId,
                                               @RequestParam("fridge_id") Long fridgeId,
@@ -97,7 +99,8 @@ public class OrderController {
             order.setOrderedTime(System.currentTimeMillis());
             Long id = orderService.create(order);
             order.setId(id);
-            byte[] bytes = getQRCodeImage(order.toString());
+            issuedValue = encodeToBase64(order.toString());
+            byte[] bytes = getQRCodeImage(issuedValue);
             QRCode objCode = new QRCode(bytes);
             objCode.setId(qrCodeService.create(objCode));
             order.setQrCode(objCode);
@@ -114,7 +117,7 @@ public class OrderController {
                                               Principal principal) throws IOException, WriterException {
         Fridge fridge = fridgeService.findByUsername(principal.getName());
 
-        System.out.println("VALUE ===> " + qrCode);
+        System.out.println("VALUE ===> " + qrCode.equals(issuedValue));
 
         System.out.println("FRIDGE ===> " + fridge);
         if (fridge != null) {
