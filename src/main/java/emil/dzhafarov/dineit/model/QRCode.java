@@ -16,21 +16,21 @@ public class QRCode implements Serializable {
     private Long id;
 
     @Column(name = "data", nullable = false)
-    private String data;
+    private byte[] data;
 
     public QRCode() {
         super();
     }
 
-    public QRCode(String data) {
+    public QRCode(byte[] data) {
         this.data = data;
     }
 
-    public String getData() {
+    public byte[] getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(byte[] data) {
         this.data = data;
     }
 
@@ -49,11 +49,11 @@ public class QRCode implements Serializable {
 
         QRCode qrCode = (QRCode) o;
 
-        return data.equals(qrCode.data);
+        return Arrays.equals(data, qrCode.data);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(data);
+        return Arrays.hashCode(data);
     }
 }

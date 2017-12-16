@@ -41,7 +41,7 @@ public class QRCodeService implements RestContract<QRCode> {
         repository.delete(id);
     }
 
-    public QRCode findByData(String data) {
+    public QRCode findByData(byte[] data) {
         return repository.findByData(data);
     }
 }
