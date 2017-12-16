@@ -16,21 +16,21 @@ public class QRCode implements Serializable {
     private Long id;
 
     @Column(name = "data", nullable = false)
-    private byte[] data;
+    private String data;
 
     public QRCode() {
         super();
     }
 
-    public QRCode(byte[] data) {
+    public QRCode(String data) {
         this.data = data;
     }
 
-    public byte[] getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(byte[] data) {
+    public void setData(String data) {
         this.data = data;
     }
 

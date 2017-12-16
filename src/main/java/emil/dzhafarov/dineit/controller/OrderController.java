@@ -101,7 +101,7 @@ public class OrderController {
             order.setId(id);
 
             byte[] bytes = getQRCodeImage(encodeToBase64(order.toString().getBytes()));
-            QRCode objCode = new QRCode(bytes);
+            QRCode objCode = new QRCode(new String(bytes));
             objCode.setId(qrCodeService.create(objCode));
             order.setQrCode(objCode);
             orderService.update(order);
@@ -122,7 +122,7 @@ public class OrderController {
         System.out.println("FRIDGE ===> " + fridge);
         if (fridge != null) {
 
-            QRCode code = qrCodeService.findByData(qrCode.getBytes());
+            QRCode code = qrCodeService.findByData(qrCode);
             System.out.println("QRCODE ===> " + code);
             Order order = orderService.findOrderByQRCode(code);
             System.out.println("ORDER ===> " + order);
