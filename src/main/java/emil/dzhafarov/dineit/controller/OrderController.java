@@ -99,9 +99,9 @@ public class OrderController {
             order.setOrderedTime(System.currentTimeMillis());
             Long id = orderService.create(order);
             order.setId(id);
-            issuedValue = encodeToBase64(order.toString());
-            byte[] bytes = getQRCodeImage(issuedValue);
-            QRCode objCode = new QRCode(bytes);
+
+            byte[] bytes = getQRCodeImage(order.toString());
+            QRCode objCode = new QRCode(encodeToBase64(bytes));
             objCode.setId(qrCodeService.create(objCode));
             order.setQrCode(objCode);
             orderService.update(order);
@@ -121,7 +121,7 @@ public class OrderController {
 
         System.out.println("FRIDGE ===> " + fridge);
         if (fridge != null) {
-            QRCode code = qrCodeService.findByData(qrCode.getBytes());
+            QRCode code = qrCodeService.findByData(qrCode);
             System.out.println("QRCODE ===> " + code);
             Order order = orderService.findOrderByQRCode(code);
             System.out.println("ORDER ===> " + order);
@@ -173,8 +173,8 @@ public class OrderController {
         }
     }
 
-    private String encodeToBase64(String result) {
-        return new String(Base64.getEncoder().encode(result.getBytes()));
+    private String encodeToBase64(byte[] data) {
+        return new String(Base64.getEncoder().encode(data));
     }
 
     private String decodeFromBase64(String result) {
