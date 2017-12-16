@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface QRCodeRepository extends CrudRepository<QRCode, Long> {
 
-    QRCode findByData(byte[] bytes);
+    QRCode findQRCodeByData(byte[] bytes);
 }
