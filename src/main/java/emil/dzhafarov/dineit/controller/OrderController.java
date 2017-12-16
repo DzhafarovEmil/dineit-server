@@ -121,6 +121,7 @@ public class OrderController {
 
         System.out.println("FRIDGE ===> " + fridge);
         if (fridge != null) {
+            System.out.println(qrCodeService.getAll());
             QRCode code = qrCodeService.findByData(qrCode.getBytes());
             System.out.println("QRCODE ===> " + code);
             Order order = orderService.findOrderByQRCode(code);
