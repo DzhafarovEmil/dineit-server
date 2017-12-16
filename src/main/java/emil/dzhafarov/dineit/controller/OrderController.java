@@ -101,8 +101,8 @@ public class OrderController {
             Long id = orderService.create(order);
             order.setId(id);
 
-            byte[] bytes = getQRCodeImage(encodeToBase64(order.toString().getBytes()));
-            QRCode objCode = new QRCode(new String(bytes).replaceAll("\u0000",""));
+            byte[] bytes = getQRCodeImage(encodeToBase64(order.toString().getBytes("Windows-1251")));
+            QRCode objCode = new QRCode(new String(bytes, Charset.forName("UTF-8")).replaceAll("\u0000",""));
             objCode.setId(qrCodeService.create(objCode));
             order.setQrCode(objCode);
             System.out.println("DATA ===> " + objCode.getData());
