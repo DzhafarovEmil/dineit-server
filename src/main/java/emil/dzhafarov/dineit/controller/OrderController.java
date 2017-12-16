@@ -97,7 +97,7 @@ public class OrderController {
             order.setOrderedTime(System.currentTimeMillis());
             Long id = orderService.create(order);
             order.setId(id);
-            byte[] bytes = getQRCodeImage(encodeToBase64(order.toString()));
+            byte[] bytes = getQRCodeImage(order.toString());
             QRCode objCode = new QRCode(bytes);
             objCode.setId(qrCodeService.create(objCode));
             order.setQrCode(objCode);
