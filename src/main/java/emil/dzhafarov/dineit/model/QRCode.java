@@ -14,6 +14,7 @@ public class QRCode implements Serializable {
     @Column(name = "qrcode_id")
     private Long id;
 
+    @Lob
     @Column(name = "data", nullable = false)
     private byte[] data;
 
