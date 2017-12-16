@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.security.Principal;
 import java.util.*;
 
@@ -101,7 +102,7 @@ public class OrderController {
             order.setId(id);
 
             byte[] bytes = getQRCodeImage(encodeToBase64(order.toString().getBytes()));
-            QRCode objCode = new QRCode(new String(bytes).replaceAll("\u0000", ""));
+            QRCode objCode = new QRCode(new String(bytes, Charset.forName("UTF-8")).replaceAll("\u0000", ""));
             objCode.setId(qrCodeService.create(objCode));
             order.setQrCode(objCode);
             orderService.update(order);
