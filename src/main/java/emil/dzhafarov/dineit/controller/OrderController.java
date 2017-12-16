@@ -105,6 +105,7 @@ public class OrderController {
             QRCode objCode = new QRCode(new String(bytes, Charset.forName("UTF-8")).replaceAll("\u0000", ""));
             objCode.setId(qrCodeService.create(objCode));
             order.setQrCode(objCode);
+            System.out.println("DATA ===> " + objCode.getData());
             orderService.update(order);
 
             return new ResponseEntity<>(objCode, HttpStatus.CREATED);
