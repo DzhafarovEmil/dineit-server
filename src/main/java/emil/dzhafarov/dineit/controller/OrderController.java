@@ -100,8 +100,8 @@ public class OrderController {
             Long id = orderService.create(order);
             order.setId(id);
 
-            byte[] bytes = getQRCodeImage(order.toString());
-            QRCode objCode = new QRCode(encodeToBase64(bytes));
+            byte[] bytes = getQRCodeImage(encodeToBase64(order.toString().getBytes()));
+            QRCode objCode = new QRCode(new String(bytes));
             objCode.setId(qrCodeService.create(objCode));
             order.setQrCode(objCode);
             orderService.update(order);
