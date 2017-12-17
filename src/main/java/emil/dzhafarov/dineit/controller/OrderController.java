@@ -103,8 +103,8 @@ public class OrderController {
 
             byte[] bytes = getQRCodeImage(order.toString());
             System.out.println("ORDER ==> " + order.toString());
-            System.out.println("ENCODED VALUES ===> " + Arrays.toString(encodeToBase64(order.toString().getBytes()).getBytes()));
-            System.out.println("NEW VALUES ==> " + decodeFromBase64(new String(bytes)));
+            System.out.println("ENCODED VALUES ===> " + new String(bytes));
+            System.out.println("NEW VALUES ==> " + decodeFromBase64(bytes));
             QRCode objCode = new QRCode(new String(bytes, Charset.forName("UTF-8")).replaceAll("\u0000",""));
             objCode.setId(qrCodeService.create(objCode));
             order.setQrCode(objCode);
@@ -184,7 +184,7 @@ public class OrderController {
         return new String(Base64.getEncoder().encode(data));
     }
 
-    private String decodeFromBase64(String result) {
-        return new String(Base64.getDecoder().decode(result.getBytes()));
+    private String decodeFromBase64(byte[] bytes) {
+        return new String(Base64.getDecoder().decode(bytes));
     }
 }
