@@ -13,11 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
-import java.nio.charset.Charset;
 import java.security.Principal;
 import java.util.*;
-
-import static java.lang.System.in;
 
 @RestController
 @RequestMapping("/api")
@@ -123,15 +120,11 @@ public class OrderController {
             Long orderId = Long.parseLong(res.substring(res.indexOf("id") + 3, res.indexOf(",")));
             Order order = orderService.findById(orderId);
 
-            System.out.println("order id ===> " + order);
-
             if (order != null && order.getStatus() != OrderStatus.RECEIVED) {
                 order.setStatus(OrderStatus.RECEIVED);
                 orderService.update(order);
                 return new ResponseEntity<>(order, HttpStatus.OK);
             }
-
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -152,20 +145,6 @@ public class OrderController {
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    private String convert(byte[] bytes) throws IOException {
-        StringBuilder builder = new StringBuilder();
-        char[] buffer = new char[4096];
-        InputStream in = new ByteArrayInputStream(bytes);
-        InputStreamReader reader = new InputStreamReader(in, "UTF-8");
-
-        int charsRead;
-        while ((charsRead = reader.read(buffer)) != -1) {
-            builder.append(buffer, 0, charsRead & 0xff);
-        }
-
-        return builder.toString();
     }
 
     private byte[] getQRCodeImage(String text) throws WriterException, IOException {
