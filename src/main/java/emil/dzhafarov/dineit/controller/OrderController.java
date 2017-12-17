@@ -166,7 +166,7 @@ public class OrderController {
         char[] buffer = new char[4096];
 
         InputStream ins = new ByteArrayInputStream(in);
-        InputStreamReader reader = new InputStreamReader(ins, "UTF-8");
+        InputStreamReader reader = new InputStreamReader(ins, "Windows-1251");
         int charsRead;
         while ((charsRead = reader.read(buffer)) != -1) {
             builder.append(buffer, 0, charsRead);
