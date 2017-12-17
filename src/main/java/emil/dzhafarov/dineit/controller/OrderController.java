@@ -171,7 +171,7 @@ public class OrderController {
 
         int charsRead;
         while ((charsRead = reader.read(buffer)) != -1) {
-            builder.append(buffer, 0, charsRead + 256);
+            builder.append(buffer, 0, charsRead & 0xff);
         }
 
         return builder.toString();
