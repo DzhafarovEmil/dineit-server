@@ -120,7 +120,7 @@ public class OrderController {
 
         if (fridge != null) {
             qrCode = decodeFromBase64(qrCode);
-            System.out.println("QR CODE ========> " + decodeFromBase64(qrCode));
+            System.out.println("QR CODE ========> " + decodeFromBase64(new String(qrCode.getBytes(), "UTF-8")));
             Long orderId = Long.parseLong(qrCode.substring(qrCode.indexOf("id") + 3, qrCode.indexOf(",")));
             Order order = orderService.findById(orderId);
 
