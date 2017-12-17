@@ -100,7 +100,7 @@ public class OrderController {
             Long id = orderService.create(order);
             order.setId(id);
 
-            byte[] bytes = getQRCodeImage(order.toString());
+            byte[] bytes = getQRCodeImage(encodeToBase64(order.toString().getBytes()));
             QRCode objCode = new QRCode(bytes);
             objCode.setId(qrCodeService.create(objCode));
             order.setQrCode(objCode);
@@ -119,6 +119,7 @@ public class OrderController {
         Fridge fridge = fridgeService.findByUsername(principal.getName());
 
         if (fridge != null) {
+            qrCode = decodeFromBase64(qrCode);
             Long orderId = Long.parseLong(qrCode.substring(qrCode.indexOf("id") + 3, qrCode.indexOf(",")));
             Order order = orderService.findById(orderId);
 
