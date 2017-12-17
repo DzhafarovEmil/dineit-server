@@ -12,8 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.security.Principal;
 import java.util.*;
@@ -104,7 +103,7 @@ public class OrderController {
             byte[] bytes = getQRCodeImage(order.toString());
             System.out.println("ORDER ==> " + order.toString());
             System.out.println("ENCODED VALUES ===> " + encodeToBase64(order.toString().getBytes()));
-            System.out.println("NEW VALUES ==> " + new String(bytes, "US-ASCII"));
+            System.out.println("NEW VALUES ==> " + convert(bytes));
             QRCode objCode = new QRCode(new String(bytes, Charset.forName("UTF-8")).replaceAll("\u0000",""));
             objCode.setId(qrCodeService.create(objCode));
             order.setQrCode(objCode);
@@ -160,6 +159,20 @@ public class OrderController {
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    private String convert(byte[] in) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        char[] buffer = new char[4096];
+
+        InputStream ins = new ByteArrayInputStream(in);
+        InputStreamReader reader = new InputStreamReader(ins, "UTF-8");
+        int charsRead;
+        while ((charsRead = reader.read(buffer)) != -1) {
+            builder.append(buffer, 0, charsRead);
+        }
+
+        return builder.toString();
     }
 
     private byte[] getQRCodeImage(String text) throws WriterException, IOException {
