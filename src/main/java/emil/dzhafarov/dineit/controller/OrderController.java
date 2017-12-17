@@ -80,8 +80,6 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    private String issuedValue;
-
     @RequestMapping(value = "/create-order/", method = RequestMethod.POST)
     public ResponseEntity<QRCode> createOrder(@RequestParam("food_company_id") Long foodCompanyId,
                                               @RequestParam("fridge_id") Long fridgeId,
@@ -103,13 +101,9 @@ public class OrderController {
             order.setId(id);
 
             byte[] bytes = getQRCodeImage(order.toString());
-            System.out.println("ORDER ==> " + order.toString());
-            System.out.println("ENCODED VALUES ===> " + encodeToBase64(order.toString().getBytes()));
-            System.out.println("NEW VALUES ==> " + convert(bytes));
-            QRCode objCode = new QRCode(new String(bytes, Charset.forName("UTF-8")).replaceAll("\u0000",""));
+            QRCode objCode = new QRCode(bytes);
             objCode.setId(qrCodeService.create(objCode));
             order.setQrCode(objCode);
-            System.out.println("DATA ===> " + objCode.getData());
             orderService.update(order);
 
 
@@ -124,15 +118,9 @@ public class OrderController {
                                               Principal principal) throws IOException, WriterException {
         Fridge fridge = fridgeService.findByUsername(principal.getName());
 
-        System.out.println("VALUE ===> " + qrCode.equals(issuedValue));
-
-        System.out.println("FRIDGE ===> " + fridge);
         if (fridge != null) {
-
-            QRCode code = qrCodeService.findByData(qrCode);
-            System.out.println("QRCODE ===> " + code);
-            Order order = orderService.findOrderByQRCode(code);
-            System.out.println("ORDER ===> " + order);
+            Long orderId = Long.parseLong(qrCode.substring(qrCode.indexOf("id") + 3, qrCode.indexOf(",")));
+            Order order = orderService.findById(orderId);
 
             if (order != null && order.getStatus() != OrderStatus.RECEIVED) {
                 order.setStatus(OrderStatus.RECEIVED);

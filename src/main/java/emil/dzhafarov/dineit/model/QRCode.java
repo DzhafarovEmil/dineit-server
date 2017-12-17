@@ -2,8 +2,6 @@ package emil.dzhafarov.dineit.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Objects;
 
 @Entity
 @Table(name = "qrcode", schema = "dineit")
@@ -16,21 +14,21 @@ public class QRCode implements Serializable {
     private Long id;
 
     @Column(name = "data", nullable = false)
-    private String data;
+    private byte[] data;
 
     public QRCode() {
         super();
     }
 
-    public QRCode(String data) {
+    public QRCode(byte[] data) {
         this.data = data;
     }
 
-    public String getData() {
+    public byte[] getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(byte[] data) {
         this.data = data;
     }
 
