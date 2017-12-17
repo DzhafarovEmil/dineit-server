@@ -104,7 +104,7 @@ public class OrderController {
             byte[] bytes = getQRCodeImage(order.toString());
             System.out.println("ORDER ==> " + order.toString());
             System.out.println("ENCODED VALUES ===> " + Arrays.toString(encodeToBase64(order.toString().getBytes()).getBytes()));
-            System.out.println("NEW VALUES ==> " + Arrays.toString(bytes));
+            System.out.println("NEW VALUES ==> " + decodeFromBase64(new String(bytes)));
             QRCode objCode = new QRCode(new String(bytes, Charset.forName("UTF-8")).replaceAll("\u0000",""));
             objCode.setId(qrCodeService.create(objCode));
             order.setQrCode(objCode);
