@@ -119,9 +119,9 @@ public class OrderController {
         Fridge fridge = fridgeService.findByUsername(principal.getName());
 
         if (fridge != null) {
-            qrCode = decodeFromBase64(qrCode);
-            System.out.println("QR CODE ========> " + decodeFromBase64(new String(qrCode.getBytes(), "UTF-8")));
-            Long orderId = Long.parseLong(qrCode.substring(qrCode.indexOf("id") + 3, qrCode.indexOf(",")));
+            String res =  decodeFromBase64(new String(qrCode.getBytes(), "UTF-8"));
+            System.out.println("QR CODE ========> " + res);
+            Long orderId = Long.parseLong(qrCode.substring(res.indexOf("id") + 3, res.indexOf(",")));
             Order order = orderService.findById(orderId);
 
             if (order != null && order.getStatus() != OrderStatus.RECEIVED) {
