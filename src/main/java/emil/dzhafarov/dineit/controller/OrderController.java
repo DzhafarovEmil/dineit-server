@@ -17,6 +17,8 @@ import java.nio.charset.Charset;
 import java.security.Principal;
 import java.util.*;
 
+import static java.lang.System.in;
+
 @RestController
 @RequestMapping("/api")
 public class OrderController {
@@ -103,7 +105,7 @@ public class OrderController {
             byte[] bytes = getQRCodeImage(order.toString());
             System.out.println("ORDER ==> " + order.toString());
             System.out.println("ENCODED VALUES ===> " + encodeToBase64(order.toString().getBytes()));
-            System.out.println("NEW VALUES ==> " + Arrays.toString(bytes));
+            System.out.println("NEW VALUES ==> " + convert(bytes));
             QRCode objCode = new QRCode(new String(bytes, Charset.forName("UTF-8")).replaceAll("\u0000",""));
             objCode.setId(qrCodeService.create(objCode));
             order.setQrCode(objCode);
@@ -159,6 +161,20 @@ public class OrderController {
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    private String convert(byte[] bytes) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        char[] buffer = new char[4096];
+        InputStream in = new ByteArrayInputStream(bytes);
+        InputStreamReader reader = new InputStreamReader(in, "UTF-8");
+
+        int charsRead;
+        while ((charsRead = reader.read(buffer)) != -1) {
+            builder.append(buffer, 0, charsRead + 256);
+        }
+
+        return builder.toString();
     }
 
     private byte[] getQRCodeImage(String text) throws WriterException, IOException {
