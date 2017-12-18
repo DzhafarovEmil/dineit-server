@@ -26,9 +26,9 @@ public class CustomerController {
         return new ResponseEntity<>(customers, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/api/customer/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Customer> findCustomerById(@PathVariable("id") Long id) {
-        Customer customer = customerService.findById(id);
+    @RequestMapping(value = "/api/customer/{username}", method = RequestMethod.GET)
+    public ResponseEntity<Customer> findCustomerById(@PathVariable("username") String username) {
+        Customer customer = customerService.findByUsername(username);
 
         if (customer == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -49,7 +49,7 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/api/customer/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> updateCustomer(@PathVariable("id") Long id,
+    public ResponseEntity<Customer> updateCustomer(@PathVariable("id") Long id,
                                             @RequestBody Customer customer) {
         Customer currentCustomer = customerService.findById(id);
 
@@ -65,7 +65,7 @@ public class CustomerController {
         currentCustomer.setPassword(customer.getPassword());
 
         customerService.update(currentCustomer);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(currentCustomer, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/api/customer/{id}", method = RequestMethod.DELETE)
