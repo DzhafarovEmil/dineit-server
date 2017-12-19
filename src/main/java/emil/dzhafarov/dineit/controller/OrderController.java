@@ -63,6 +63,16 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @RequestMapping(value = "/order/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Order> getOrderById(@PathVariable("id") Long orderId) {
+        Order order = orderService.findById(orderId);
+
+        if (order != null) {
+            return new ResponseEntity<>(order, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
     @RequestMapping(value = "/order/{order_id}/foods", method = RequestMethod.GET)
     public ResponseEntity<List<Food>> getAllFoodsInOrder(@PathVariable("order_id") Long orderId) {
