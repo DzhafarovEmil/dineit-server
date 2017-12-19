@@ -130,7 +130,7 @@ public class OrderController {
             Long orderId = Long.parseLong(res.substring(res.indexOf("id") + 3, res.indexOf(",")));
             Order order = orderService.findById(orderId);
 
-            if (order != null && order.getStatus() != OrderStatus.RECEIVED) {
+            if (order != null && order.getStatus() == OrderStatus.DONE) {
                 order.setStatus(OrderStatus.RECEIVED);
                 orderService.update(order);
                 return new ResponseEntity<>(order, HttpStatus.OK);
