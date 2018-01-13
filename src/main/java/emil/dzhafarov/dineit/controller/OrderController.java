@@ -142,7 +142,9 @@ public class OrderController {
 
 
     @RequestMapping(value = "/order/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Long> updateOrder(@PathVariable("id") Long id, @RequestBody Order order, Principal principal) {
+    public ResponseEntity<Long> updateOrder(@PathVariable("id") Long id,
+                                            @RequestBody Order order,
+                                            Principal principal) {
         Order o = orderService.findById(id);
         if (o != null && principal.getName().equals(o.getFoodCompany().getUsername())) {
             o.setCustomer(order.getCustomer());
